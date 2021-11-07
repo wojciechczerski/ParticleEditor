@@ -4,9 +4,53 @@ import SwiftUI
 import Combine
 
 class ParticleEmitter: ObservableObject {
-    var position: CGPoint = .zero
-    var size: CGSize = .zero
+    @Published var position: CGPoint = .zero
+    @Published var size: CGSize = .zero
     @Published var birthrate: CGFloat = 0
+    
+    init(position: CGPoint, size: CGSize, birthrate: CGFloat) {
+        self.position = position
+        self.size = size
+        self.birthrate = birthrate
+    }
+}
+
+class MutableValue<T> {
+    var value: T
+    
+    init(value: T) {
+        self.value = value
+    }
+}
+
+struct CGFloatTextField: View {
+    @Binding var floatValue: CGFloat
+
+    @State private var input: String
+    private let numberFormatter = NumberFormatter()
+    private let currentNumber: MutableValue<NSNumber> = MutableValue(value: NSDecimalNumber.zero)
+    
+    init(value: Binding<CGFloat>) {
+        _floatValue = value
+
+        if let initialInput = numberFormatter.string(from: NSDecimalNumber(floatLiteral: Double(value.wrappedValue))) {
+            _input = State(initialValue: initialInput)
+        } else {
+            _input = State(initialValue: "0")
+        }
+    }
+    
+    var body: some View {
+        TextField("", text: $input)
+            .onChange(of: input, perform: handleInputChange)
+    }
+    
+    private func handleInputChange(_ input: String) {
+        if let newNumber = numberFormatter.number(from: input), newNumber != currentNumber.value {
+            currentNumber.value = newNumber
+            floatValue = CGFloat(truncating: newNumber)
+        }
+    }
 }
 
 class CAEmitterLayerView: UIView {
@@ -33,15 +77,13 @@ class CAEmitterLayerView: UIView {
 }
 
 struct ParticleEmitterView: UIViewRepresentable {
-    @Binding var position: CGPoint
-    @Binding var size: CGSize
-    @Binding var birthrate: CGFloat
+    @ObservedObject var emitter: ParticleEmitter
     
     func updateUIView(_ emitterView: CAEmitterLayerView, context: Context) {
-        emitterView.emitterLayer.position = position
-        emitterView.emitterLayer.bounds.size = size
-        emitterView.emitterLayer.emitterSize = .init(width: size.width, height: 0)
-        emitterView.emitterLayer.emitterPosition = CGPoint(x: size.width / 2.0, y: 0)
+        emitterView.emitterLayer.position = emitter.position
+        emitterView.emitterLayer.bounds.size = emitter.size
+        emitterView.emitterLayer.emitterSize = .init(width: emitter.size.width, height: 0)
+        emitterView.emitterLayer.emitterPosition = CGPoint(x: emitter.size.width / 2.0, y: 0)
         emitterView.emitterLayer.emitterCells = [emitterCell()]
     }
     
@@ -53,7 +95,7 @@ struct ParticleEmitterView: UIViewRepresentable {
     
     private func emitterCell() -> CAEmitterCell {
         let cell = CAEmitterCell()
-        cell.birthRate = Float(birthrate)
+        cell.birthRate = Float(emitter.birthrate)
         cell.lifetime = 10.0
         cell.velocity = CGFloat(cell.birthRate * cell.lifetime)
         cell.velocityRange = cell.velocity / 2
@@ -67,78 +109,6 @@ struct ParticleEmitterView: UIViewRepresentable {
     }
 }
 
-class CGSizeInput: ObservableObject {
-    var width: String { didSet { inputDidChange() }}
-    var height: String { didSet { inputDidChange() }}
-    @Published var size: CGSize = .zero
-    
-    private let numberFormatter = NumberFormatter()
-    private var currentWidth: NSNumber = NSDecimalNumber.zero
-    private var currentHeight: NSNumber = NSDecimalNumber.zero
-    
-    init(width: CGFloat, height: CGFloat) {
-        self.width = "\(width)"
-        self.height = "\(height)"
-        self.size = .init(width: width, height: height)
-    }
-    
-    private func inputDidChange() {
-        if let newWidth = numberFormatter.number(from: width), newWidth != currentWidth {
-            size.width = CGFloat(truncating: newWidth)
-            currentWidth = newWidth
-        }
-        
-        if let newHeight = numberFormatter.number(from: height), newHeight != currentHeight {
-            size.height = CGFloat(truncating: newHeight)
-            currentHeight = newHeight
-        }
-    }
-}
-
-class CGPointInput: ObservableObject {
-    var x: String { didSet { inputDidChange() }}
-    var y: String { didSet { inputDidChange() }}
-    @Published var point: CGPoint = .zero
-    
-    init(x: CGFloat, y: CGFloat) {
-        self.x = "\(x)"
-        self.y = "\(y)"
-        self.point = .init(x: x, y: y)
-    }
-    
-    private let numberFormatter = NumberFormatter()
-    private var oldNumberX: NSNumber = NSDecimalNumber.zero
-    
-    private func inputDidChange() {
-        if let numberX = numberFormatter.number(from: x), numberX != oldNumberX {
-            point.x = CGFloat(truncating: numberX)
-            oldNumberX = numberX
-        }
-        
-        if let numberY = numberFormatter.number(from: y) {
-            point.y = CGFloat(truncating: numberY)
-        }
-    }
-}
-
-class CGFloatInput: ObservableObject {
-    var input: String { didSet { inputDidChange() }}
-    @Published var floatValue: CGFloat = .zero
-    
-    private let numberFormatter = NumberFormatter()
-    
-    init(value: CGFloat) {
-        input = "\(value)"
-        floatValue = value
-    }
-    
-    private func inputDidChange() {
-        if let number = numberFormatter.number(from: input) {
-            floatValue = CGFloat(truncating: number)
-        }
-    }
-}
-
 struct ContentView: View {
     private let numberFormatter: NumberFormatter = {
         let formatter = NumberFormatter()
@@ -146,43 +116,38 @@ struct ContentView: View {
         return formatter
     }()
 
-    @StateObject var particleEmitter = ParticleEmitter()
-    @StateObject var pointInput = CGPointInput(x: 0, y: 100)
-    @StateObject var sizeInput = CGSizeInput(width: 300, height: 400)
-    @StateObject var birthrate = CGFloatInput(value: 50)
-    
-    
+    @StateObject var particleEmitter = ParticleEmitter(position: .init(x: 0, y: 100),
+                                                       size: .init(width: 300, height: 400),
+                                                       birthrate: 50)
+
     var body: some View {
         VStack(alignment: .leading) {
             HStack {
                 Text("Position")
-                TextField("0.00", text: $pointInput.x)
+                CGFloatTextField(value: $particleEmitter.position.x)
                     .padding(8)
                     .border(Color.black, width: 1)
-                TextField("0.00", text: $pointInput.y)
+                CGFloatTextField(value: $particleEmitter.position.y)
                     .padding(8)
                     .border(Color.black, width: 1)
             }
             HStack {
                 Text("Size")
-                TextField("0.00", text: $sizeInput.width)
+                CGFloatTextField(value: $particleEmitter.size.width)
                     .padding(8)
                     .border(Color.black, width: 1)
-                TextField("0.00", text: $sizeInput.height)
+                CGFloatTextField(value: $particleEmitter.size.height)
                     .padding(8)
                     .border(Color.black, width: 1)
             }
             HStack {
                 Text("Birthrate")
-                TextField("0.00", text: $birthrate.input)
+                CGFloatTextField(value: $particleEmitter.birthrate)
                     .padding(8)
                     .border(Color.black, width: 1)
                 
             }
-            HStack {
-                Text("Particle Emitter (birth rate): \(particleEmitter.birthrate)")
-            }
-            ParticleEmitterView(position: $pointInput.point, size: $sizeInput.size, birthrate: $birthrate.floatValue)
+            ParticleEmitterView(emitter: particleEmitter)
         }.padding()
     }
 }
