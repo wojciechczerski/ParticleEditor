@@ -7,49 +7,21 @@ class ParticleEmitter: ObservableObject {
     @Published var position: CGPoint = .zero
     @Published var size: CGSize = .zero
     @Published var birthrate: CGFloat = 0
-    
-    init(position: CGPoint, size: CGSize, birthrate: CGFloat) {
-        self.position = position
-        self.size = size
-        self.birthrate = birthrate
-    }
-}
-
-class MutableValue<T> {
-    var value: T
-    
-    init(value: T) {
-        self.value = value
-    }
+    @Published var lifetime: CGFloat = 0
 }
 
 struct CGFloatTextField: View {
-    @Binding var floatValue: CGFloat
+    @Binding var value: CGFloat
 
-    @State private var input: String
-    private let numberFormatter = NumberFormatter()
-    private let currentNumber: MutableValue<NSNumber> = MutableValue(value: NSDecimalNumber.zero)
-    
-    init(value: Binding<CGFloat>) {
-        _floatValue = value
-
-        if let initialInput = numberFormatter.string(from: NSDecimalNumber(floatLiteral: Double(value.wrappedValue))) {
-            _input = State(initialValue: initialInput)
-        } else {
-            _input = State(initialValue: "0")
-        }
+    private var numberFormatter: NumberFormatter {
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .decimal
+        formatter.maximumFractionDigits = 2
+        return formatter
     }
     
     var body: some View {
-        TextField("", text: $input)
-            .onChange(of: input, perform: handleInputChange)
-    }
-    
-    private func handleInputChange(_ input: String) {
-        if let newNumber = numberFormatter.number(from: input), newNumber != currentNumber.value {
-            currentNumber.value = newNumber
-            floatValue = CGFloat(truncating: newNumber)
-        }
+        TextField("", value: $value, formatter: numberFormatter)
     }
 }
 
@@ -96,7 +68,7 @@ struct ParticleEmitterView: UIViewRepresentable {
     private func emitterCell() -> CAEmitterCell {
         let cell = CAEmitterCell()
         cell.birthRate = Float(emitter.birthrate)
-        cell.lifetime = 10.0
+        cell.lifetime = Float(emitter.lifetime)
         cell.velocity = CGFloat(cell.birthRate * cell.lifetime)
         cell.velocityRange = cell.velocity / 2
         cell.emissionLongitude = .pi
@@ -109,43 +81,59 @@ struct ParticleEmitterView: UIViewRepresentable {
     }
 }
 
-struct ContentView: View {
-    private let numberFormatter: NumberFormatter = {
-        let formatter = NumberFormatter()
-//        formatter.numberStyle = .decimal
-        return formatter
-    }()
+struct InputFieldStyle: ViewModifier {
+    func body(content: Content) -> some View {
+        content
+            .padding(8)
+            .border(Color.black, width: 1)
+    }
+}
 
-    @StateObject var particleEmitter = ParticleEmitter(position: .init(x: 0, y: 100),
-                                                       size: .init(width: 300, height: 400),
-                                                       birthrate: 50)
+extension View {
+    func inputFieldStyle() -> some View {
+        modifier(InputFieldStyle())
+    }
+}
+
+struct ContentView: View {
+    @StateObject var particleEmitter: ParticleEmitter
+    
+    init() {
+        let emitter = ParticleEmitter()
+        emitter.position = .init(x: 0, y: 100)
+        emitter.size = .init(width: 300, height: 400)
+        emitter.birthrate = 50
+        emitter.lifetime = 3
+        
+        _particleEmitter = StateObject(wrappedValue: emitter)
+    }
 
     var body: some View {
         VStack(alignment: .leading) {
             HStack {
                 Text("Position")
                 CGFloatTextField(value: $particleEmitter.position.x)
-                    .padding(8)
-                    .border(Color.black, width: 1)
+                    .inputFieldStyle()
+                Slider(value: $particleEmitter.position.x, in: -300...300)
                 CGFloatTextField(value: $particleEmitter.position.y)
-                    .padding(8)
-                    .border(Color.black, width: 1)
+                    .inputFieldStyle()
             }
             HStack {
                 Text("Size")
                 CGFloatTextField(value: $particleEmitter.size.width)
-                    .padding(8)
-                    .border(Color.black, width: 1)
+                    .inputFieldStyle()
                 CGFloatTextField(value: $particleEmitter.size.height)
-                    .padding(8)
-                    .border(Color.black, width: 1)
+                    .inputFieldStyle()
             }
             HStack {
                 Text("Birthrate")
                 CGFloatTextField(value: $particleEmitter.birthrate)
-                    .padding(8)
-                    .border(Color.black, width: 1)
-                
+                    .inputFieldStyle()
+            }
+            HStack {
+                Text("Lifetime")
+                CGFloatTextField(value: $particleEmitter.lifetime)
+                    .inputFieldStyle()
             }
             ParticleEmitterView(emitter: particleEmitter)
         }.padding()
