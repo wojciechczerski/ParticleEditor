@@ -26,27 +26,19 @@ struct CGFloatTextField: View {
 }
 
 class CAEmitterLayerView: UIView {
-    let emitterLayer = CAEmitterLayer()
-
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        commonInit()
-    }
-    
-    required init?(coder: NSCoder) {
-        super.init(coder: coder)
-        commonInit()
-    }
+    lazy var emitterLayer = createEmitterLayer()
 
     override func layoutSublayers(of layer: CALayer) {
         super.layoutSublayers(of: layer)
         emitterLayer.frame = layer.frame
     }
     
-    func commonInit() {
+    private func createEmitterLayer() -> CAEmitterLayer {
+        let emitterLayer = CAEmitterLayer()
         emitterLayer.anchorPoint = .zero
         emitterLayer.emitterShape = .line
         layer.addSublayer(emitterLayer)
+        return emitterLayer
     }
 }
 
