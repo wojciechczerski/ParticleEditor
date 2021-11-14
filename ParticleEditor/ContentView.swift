@@ -37,13 +37,15 @@ class CAEmitterLayerView: UIView {
         super.init(coder: coder)
         commonInit()
     }
+
+    override func layoutSublayers(of layer: CALayer) {
+        super.layoutSublayers(of: layer)
+        emitterLayer.frame = layer.frame
+    }
     
     func commonInit() {
         emitterLayer.anchorPoint = .zero
-        emitterLayer.bounds = layer.bounds
         emitterLayer.emitterShape = .line
-        emitterLayer.emitterSize = CGSize(width: frame.size.width, height: 1.0)
-        emitterLayer.emitterPosition = CGPoint(x: frame.size.width / 2.0, y: 0)
         layer.addSublayer(emitterLayer)
     }
 }
@@ -52,10 +54,9 @@ struct ParticleEmitterView: UIViewRepresentable {
     @ObservedObject var emitter: ParticleEmitter
     
     func updateUIView(_ emitterView: CAEmitterLayerView, context: Context) {
-        emitterView.emitterLayer.position = emitter.position
-        emitterView.emitterLayer.bounds.size = emitter.size
-        emitterView.emitterLayer.emitterSize = .init(width: emitter.size.width, height: 0)
-        emitterView.emitterLayer.emitterPosition = CGPoint(x: emitter.size.width / 2.0, y: 0)
+        emitterView.emitterLayer.frame = emitterView.layer.frame
+        emitterView.emitterLayer.emitterSize = emitter.size
+        emitterView.emitterLayer.emitterPosition = emitter.position
         emitterView.emitterLayer.emitterCells = [emitterCell()]
     }
     
