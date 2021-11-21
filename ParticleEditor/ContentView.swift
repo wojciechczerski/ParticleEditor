@@ -12,16 +12,25 @@ class ParticleEmitter: ObservableObject {
 
 struct CGFloatTextField: View {
     @Binding var value: CGFloat
+    let formatter = createNumberFormatter()
 
-    private var numberFormatter: NumberFormatter {
-        let formatter = NumberFormatter()
-        formatter.numberStyle = .decimal
-        formatter.maximumFractionDigits = 2
-        return formatter
+    var body: some View {
+        let numberProxy = Binding<String>(
+            get: {
+                formatter.string(from: NSNumber(value: Double(value))) ?? ""
+            },
+            set: {
+                if let value = formatter.number(from: $0) {
+                    self.value = CGFloat(truncating: value)
+                }
+            }
+        )
+        TextField("", text: numberProxy)
     }
     
-    var body: some View {
-        TextField("", value: $value, formatter: numberFormatter)
+    private static func createNumberFormatter() -> NumberFormatter {
+        let formatter = NumberFormatter()
+        return formatter
     }
 }
 
