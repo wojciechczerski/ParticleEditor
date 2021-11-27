@@ -123,8 +123,18 @@ extension View {
     }
 }
 
+enum Property: String, CaseIterable, Identifiable {
+    case position
+    case size
+    case birthrate
+    case lifetime
+    
+    var id: String { rawValue }
+}
+
 struct ContentView: View {
     @StateObject var particleEmitter: ParticleEmitter
+    @State var editedProperty = Property.birthrate
     
     init() {
         let emitter = ParticleEmitter()
@@ -138,32 +148,45 @@ struct ContentView: View {
 
     var body: some View {
         VStack(alignment: .leading) {
-            HStack {
-                Text("Position")
-                CGFloatTextField(value: $particleEmitter.position.x)
-                    .inputFieldStyle()
-                Slider(value: $particleEmitter.position.x, in: -300...300)
-                CGFloatTextField(value: $particleEmitter.position.y)
-                    .inputFieldStyle()
-            }
-            HStack {
-                Text("Size")
-                CGFloatTextField(value: $particleEmitter.size.width)
-                    .inputFieldStyle()
-                CGFloatTextField(value: $particleEmitter.size.height)
-                    .inputFieldStyle()
-            }
-            HStack {
-                Text("Birthrate")
-                CGFloatTextField(value: $particleEmitter.birthrate)
-                    .inputFieldStyle()
-            }
-            HStack {
-                Text("Lifetime")
-                CGFloatTextField(value: $particleEmitter.lifetime)
-                    .inputFieldStyle()
-            }
             ParticleEmitterView(emitter: particleEmitter)
+            Picker("Test", selection: $editedProperty) {
+                Text("Position").tag(Property.position)
+                Text("Size").tag(Property.size)
+                Text("Birthrate").tag(Property.birthrate)
+                Text("Lifetime").tag(Property.lifetime)
+            }.pickerStyle(.segmented)
+            switch editedProperty {
+            case .position:
+                HStack {
+                    Text("X")
+                    CGFloatTextField(value: $particleEmitter.position.x)
+                        .inputFieldStyle()
+                    Text("Y")
+                    CGFloatTextField(value: $particleEmitter.position.y)
+                        .inputFieldStyle()
+                }
+            case .size:
+                HStack {
+                    Text("Width")
+                    CGFloatTextField(value: $particleEmitter.size.width)
+                        .inputFieldStyle()
+                    Text("Height")
+                    CGFloatTextField(value: $particleEmitter.size.height)
+                        .inputFieldStyle()
+                }
+            case .birthrate:
+                HStack {
+                    Slider(value: $particleEmitter.birthrate, in: 0...100)
+                    CGFloatTextField(value: $particleEmitter.birthrate)
+                        .inputFieldStyle()
+                        .frame(width: 70)
+                }
+            case .lifetime:
+                HStack {
+                    CGFloatTextField(value: $particleEmitter.lifetime)
+                        .inputFieldStyle()
+                }
+            }
         }.padding()
     }
 }
