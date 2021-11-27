@@ -124,12 +124,24 @@ extension View {
 }
 
 enum Property: String, CaseIterable, Identifiable {
-    case position
-    case size
-    case birthrate
-    case lifetime
+    case position = "Position"
+    case size = "Size"
+    case birthrate = "Birthrate"
+    case lifetime = "Lifetime"
     
     var id: String { rawValue }
+}
+
+struct PropertyButtonStyle: ButtonStyle {
+    let selected: Bool
+    
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .padding(4)
+            .border(Color.black)
+            .foregroundColor(selected ? Color.white : Color.black)
+            .background(selected ? Color.black : Color.clear)
+    }
 }
 
 struct ContentView: View {
@@ -149,12 +161,15 @@ struct ContentView: View {
     var body: some View {
         VStack(alignment: .leading) {
             ParticleEmitterView(emitter: particleEmitter)
-            Picker("Test", selection: $editedProperty) {
-                Text("Position").tag(Property.position)
-                Text("Size").tag(Property.size)
-                Text("Birthrate").tag(Property.birthrate)
-                Text("Lifetime").tag(Property.lifetime)
-            }.pickerStyle(.segmented)
+            ScrollView(.horizontal) {
+                HStack(spacing: 0) {
+                    ForEach(Property.allCases) { property in
+                        Button(property.rawValue) {
+                            editedProperty = property
+                        }.buttonStyle(PropertyButtonStyle(selected: property == editedProperty))
+                    }
+                }
+            }
             switch editedProperty {
             case .position:
                 HStack {
