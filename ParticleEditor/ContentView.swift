@@ -144,9 +144,30 @@ struct PropertyButtonStyle: ButtonStyle {
     }
 }
 
+struct MyGesture: Gesture {
+    @Binding var position: CGPoint
+    let initialPosition: CGPoint
+    
+    init(position: Binding<CGPoint>) {
+        _position = position
+        initialPosition = position.wrappedValue
+    }
+
+    var body: some Gesture {
+        DragGesture()
+            .onChanged { value in
+                print("initial", initialPosition, "translation", value.translation)
+//                self.position = CGPoint(x: initialPosition.x + value.translation.width,
+//                                        y: initialPosition.y + value.translation.height)
+            }
+    }
+}
+
 struct ContentView: View {
     @StateObject var particleEmitter: ParticleEmitter
     @State var editedProperty = Property.birthrate
+    @State var emitterPositionBeforeDrag: CGPoint?
+    @State var emitterSizeBeforeZoom: CGSize?
     
     init() {
         let emitter = ParticleEmitter()
@@ -161,6 +182,55 @@ struct ContentView: View {
     var body: some View {
         VStack(alignment: .leading) {
             ParticleEmitterView(emitter: particleEmitter)
+                .gesture(
+                    DragGesture()
+                        .onChanged { value in
+                            var position = self.particleEmitter.position
+                            if let initialPosition = emitterPositionBeforeDrag {
+                                position = initialPosition
+                            } else {
+                                emitterPositionBeforeDrag = position
+                            }
+                            self.particleEmitter.position = CGPoint(x: position.x + value.translation.width,
+                                                                    y: position.y + value.translation.height)
+                        }
+                        .onEnded { value in
+                            var position = self.particleEmitter.position
+                            if let initialPosition = emitterPositionBeforeDrag {
+                                position = initialPosition
+                            } else {
+                                emitterPositionBeforeDrag = position
+                            }
+                            self.particleEmitter.position = CGPoint(x: position.x + value.translation.width,
+                                                                    y: position.y + value.translation.height)
+
+                            emitterPositionBeforeDrag = nil
+                        }
+                )
+                .gesture(
+                    MagnificationGesture()
+                        .onChanged { value in
+                            var size = self.particleEmitter.size
+                            if let initialSize = emitterSizeBeforeZoom {
+                                size = initialSize
+                            } else {
+                                emitterSizeBeforeZoom = size
+                            }
+                            self.particleEmitter.size = CGSize(width: size.width * value,
+                                                               height: size.height * value)
+                        }
+                        .onEnded { value in
+                            var size = self.particleEmitter.size
+                            if let initialSize = emitterSizeBeforeZoom {
+                                size = initialSize
+                            } else {
+                                emitterSizeBeforeZoom = size
+                            }
+                            self.particleEmitter.size = CGSize(width: size.width * value,
+                                                               height: size.height * value)
+                            emitterSizeBeforeZoom = nil
+                        }
+                )
             ScrollView(.horizontal) {
                 HStack(spacing: 0) {
                     ForEach(Property.allCases) { property in
