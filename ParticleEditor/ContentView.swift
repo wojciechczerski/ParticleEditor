@@ -8,6 +8,8 @@ class ParticleEmitter: ObservableObject {
     @Published var size: CGSize = .zero
     @Published var birthrate: CGFloat = 0
     @Published var lifetime: CGFloat = 0
+    @Published var velocity: CGFloat = 0
+    @Published var velocityRange: CGFloat = 0
 }
 
 struct CGFloatTextField: View {
@@ -97,8 +99,8 @@ struct ParticleEmitterView: UIViewRepresentable {
         let cell = CAEmitterCell()
         cell.birthRate = Float(emitter.birthrate)
         cell.lifetime = Float(emitter.lifetime)
-        cell.velocity = 10
-        cell.velocityRange = cell.velocity / 2
+        cell.velocity = emitter.velocity
+        cell.velocityRange = emitter.velocityRange
 //        cell.emissionLongitude = .pi
 //        cell.emissionRange = .pi / 4
 //        cell.spinRange = .pi * 6
@@ -128,6 +130,7 @@ enum Property: String, CaseIterable, Identifiable {
     case size = "Size"
     case birthrate = "Birthrate"
     case lifetime = "Lifetime"
+    case velocity = "Velocity"
     
     var id: String { rawValue }
 }
@@ -152,10 +155,11 @@ struct ContentView: View {
     
     init() {
         let emitter = ParticleEmitter()
-        emitter.position = .init(x: 0, y: 100)
-        emitter.size = .init(width: 300, height: 400)
-        emitter.birthrate = 50
+        emitter.position = .init(x: 100, y: 100)
+        emitter.size = .init(width: 200, height: 200)
+        emitter.birthrate = 10
         emitter.lifetime = 3
+        emitter.velocity = 50
         
         _particleEmitter = StateObject(wrappedValue: emitter)
     }
@@ -253,6 +257,21 @@ struct ContentView: View {
                     CGFloatTextField(value: $particleEmitter.lifetime)
                         .inputFieldStyle()
                         .frame(width: 70)
+                }
+            case .velocity:
+                VStack {
+                    HStack {
+                        Slider(value: $particleEmitter.velocity, in: -150...150)
+                        CGFloatTextField(value: $particleEmitter.velocity)
+                            .inputFieldStyle()
+                            .frame(width: 70)
+                    }
+                    HStack {
+                        Slider(value: $particleEmitter.velocityRange, in: -100...100)
+                        CGFloatTextField(value: $particleEmitter.velocityRange)
+                            .inputFieldStyle()
+                            .frame(width: 70)
+                    }
                 }
             }
         }.padding()
