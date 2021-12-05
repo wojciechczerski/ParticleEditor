@@ -97,7 +97,7 @@ struct ParticleEmitterView: UIViewRepresentable {
         let cell = CAEmitterCell()
         cell.birthRate = Float(emitter.birthrate)
         cell.lifetime = Float(emitter.lifetime)
-        cell.velocity = CGFloat(cell.birthRate * cell.lifetime)
+        cell.velocity = 10
         cell.velocityRange = cell.velocity / 2
 //        cell.emissionLongitude = .pi
 //        cell.emissionRange = .pi / 4
@@ -141,25 +141,6 @@ struct PropertyButtonStyle: ButtonStyle {
             .border(Color.black)
             .foregroundColor(selected ? Color.white : Color.black)
             .background(selected ? Color.black : Color.clear)
-    }
-}
-
-struct MyGesture: Gesture {
-    @Binding var position: CGPoint
-    let initialPosition: CGPoint
-    
-    init(position: Binding<CGPoint>) {
-        _position = position
-        initialPosition = position.wrappedValue
-    }
-
-    var body: some Gesture {
-        DragGesture()
-            .onChanged { value in
-                print("initial", initialPosition, "translation", value.translation)
-//                self.position = CGPoint(x: initialPosition.x + value.translation.width,
-//                                        y: initialPosition.y + value.translation.height)
-            }
     }
 }
 
@@ -268,8 +249,10 @@ struct ContentView: View {
                 }
             case .lifetime:
                 HStack {
+                    Slider(value: $particleEmitter.lifetime, in: 0...20)
                     CGFloatTextField(value: $particleEmitter.lifetime)
                         .inputFieldStyle()
+                        .frame(width: 70)
                 }
             }
         }.padding()
