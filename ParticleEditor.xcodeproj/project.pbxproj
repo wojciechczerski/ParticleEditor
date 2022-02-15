@@ -77,6 +77,7 @@
 			buildConfigurationList = C202684326FA85F500C16825 /* Build configuration list for PBXNativeTarget "ParticleEditor" */;
 			buildPhases = (
 				C2B263BD27BC45DC001F9109 /* SwiftFormat */,
+				C2B263BE27BC48F3001F9109 /* SwiftLint */,
 				C202683026FA85F400C16825 /* Sources */,
 				C202683126FA85F400C16825 /* Frameworks */,
 				C202683226FA85F400C16825 /* Resources */,
@@ -152,6 +153,24 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "export PATH=\"$PATH:/opt/homebrew/bin\"\n\nif which swiftformat >/dev/null; then\n  swiftformat .\nelse\n  echo \"warning: SwiftFormat not installed, download from https://github.com/nicklockwood/SwiftFormat\"\nfi\n";
+		};
+		C2B263BE27BC48F3001F9109 /* SwiftLint */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = SwiftLint;
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "export PATH=\"$PATH:/opt/homebrew/bin\"\n\nif which swiftlint >/dev/null; then\n  swiftlint --fix && swiftlint\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
