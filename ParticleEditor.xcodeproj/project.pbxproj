@@ -76,6 +76,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = C202684326FA85F500C16825 /* Build configuration list for PBXNativeTarget "ParticleEditor" */;
 			buildPhases = (
+				C2B263BD27BC45DC001F9109 /* SwiftFormat */,
 				C202683026FA85F400C16825 /* Sources */,
 				C202683126FA85F400C16825 /* Frameworks */,
 				C202683226FA85F400C16825 /* Resources */,
@@ -132,6 +133,27 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		C2B263BD27BC45DC001F9109 /* SwiftFormat */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = SwiftFormat;
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "export PATH=\"$PATH:/opt/homebrew/bin\"\n\nif which swiftformat >/dev/null; then\n  swiftformat .\nelse\n  echo \"warning: SwiftFormat not installed, download from https://github.com/nicklockwood/SwiftFormat\"\nfi\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		C202683026FA85F400C16825 /* Sources */ = {

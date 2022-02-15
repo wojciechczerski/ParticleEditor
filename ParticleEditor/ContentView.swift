@@ -1,7 +1,7 @@
 // Copyright © 2021 Wojciech Czerski. All rights reserved.
 
-import SwiftUI
 import Combine
+import SwiftUI
 
 class ParticleEmitter: ObservableObject {
     @Published var position: CGPoint = .zero
@@ -29,7 +29,7 @@ struct CGFloatTextField: View {
         )
         TextField("", text: numberProxy)
     }
-    
+
     private static func createNumberFormatter() -> NumberFormatter {
         let formatter = NumberFormatter()
         return formatter
@@ -53,11 +53,11 @@ class CAEmitterLayerView: UIView {
         emitterFrameLayer.frame = layer.frame
         updateEmitterFrame()
     }
-    
+
     func updateEmitterFrame() {
         emitterFrameLayer.path = emitterFramePath
     }
-    
+
     private func createEmitterLayer() -> CAEmitterLayer {
         let emitterLayer = CAEmitterLayer()
         emitterLayer.anchorPoint = .zero
@@ -65,7 +65,7 @@ class CAEmitterLayerView: UIView {
         layer.addSublayer(emitterLayer)
         return emitterLayer
     }
-    
+
     private func createEmitterFrameLayer() -> CAShapeLayer {
         let frameLayer = CAShapeLayer()
         frameLayer.anchorPoint = .zero
@@ -80,21 +80,21 @@ class CAEmitterLayerView: UIView {
 
 struct ParticleEmitterView: UIViewRepresentable {
     @ObservedObject var emitter: ParticleEmitter
-    
-    func updateUIView(_ emitterView: CAEmitterLayerView, context: Context) {
+
+    func updateUIView(_ emitterView: CAEmitterLayerView, context _: Context) {
         emitterView.emitterLayer.frame = emitterView.layer.frame
         emitterView.emitterLayer.emitterSize = emitter.size
         emitterView.emitterLayer.emitterPosition = emitter.position
         emitterView.emitterLayer.emitterCells = [emitterCell()]
         emitterView.updateEmitterFrame()
     }
-    
-    func makeUIView(context: Context) -> CAEmitterLayerView {
+
+    func makeUIView(context _: Context) -> CAEmitterLayerView {
         let view = CAEmitterLayerView()
         view.emitterLayer.backgroundColor = UIColor.blue.cgColor
         return view
     }
-    
+
     private func emitterCell() -> CAEmitterCell {
         let cell = CAEmitterCell()
         cell.birthRate = Float(emitter.birthrate)
@@ -131,13 +131,13 @@ enum Property: String, CaseIterable, Identifiable {
     case birthrate = "Birthrate"
     case lifetime = "Lifetime"
     case velocity = "Velocity"
-    
+
     var id: String { rawValue }
 }
 
 struct PropertyButtonStyle: ButtonStyle {
     let selected: Bool
-    
+
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .padding(4)
@@ -152,7 +152,7 @@ struct ContentView: View {
     @State var editedProperty = Property.birthrate
     @State var emitterPositionBeforeDrag: CGPoint?
     @State var emitterSizeBeforeZoom: CGSize?
-    
+
     init() {
         let emitter = ParticleEmitter()
         emitter.position = .init(x: 100, y: 100)
@@ -160,7 +160,7 @@ struct ContentView: View {
         emitter.birthrate = 10
         emitter.lifetime = 3
         emitter.velocity = 50
-        
+
         _particleEmitter = StateObject(wrappedValue: emitter)
     }
 
@@ -246,14 +246,14 @@ struct ContentView: View {
                 }
             case .birthrate:
                 HStack {
-                    Slider(value: $particleEmitter.birthrate, in: 0...100)
+                    Slider(value: $particleEmitter.birthrate, in: 0 ... 100)
                     CGFloatTextField(value: $particleEmitter.birthrate)
                         .inputFieldStyle()
                         .frame(width: 70)
                 }
             case .lifetime:
                 HStack {
-                    Slider(value: $particleEmitter.lifetime, in: 0...20)
+                    Slider(value: $particleEmitter.lifetime, in: 0 ... 20)
                     CGFloatTextField(value: $particleEmitter.lifetime)
                         .inputFieldStyle()
                         .frame(width: 70)
@@ -261,13 +261,13 @@ struct ContentView: View {
             case .velocity:
                 VStack {
                     HStack {
-                        Slider(value: $particleEmitter.velocity, in: -150...150)
+                        Slider(value: $particleEmitter.velocity, in: -150 ... 150)
                         CGFloatTextField(value: $particleEmitter.velocity)
                             .inputFieldStyle()
                             .frame(width: 70)
                     }
                     HStack {
-                        Slider(value: $particleEmitter.velocityRange, in: -100...100)
+                        Slider(value: $particleEmitter.velocityRange, in: -100 ... 100)
                         CGFloatTextField(value: $particleEmitter.velocityRange)
                             .inputFieldStyle()
                             .frame(width: 70)
