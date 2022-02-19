@@ -33,6 +33,8 @@ struct CGFloatTextField: View {
 
     private static func createNumberFormatter() -> NumberFormatter {
         let formatter = NumberFormatter()
+        formatter.numberStyle = .decimal
+        formatter.maximumFractionDigits = 2
         return formatter
     }
 }
