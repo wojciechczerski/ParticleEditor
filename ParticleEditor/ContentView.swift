@@ -49,9 +49,11 @@ class CAEmitterLayerView: UIView {
 
     override func layoutSublayers(of layer: CALayer) {
         super.layoutSublayers(of: layer)
-        emitterLayer.frame = layer.frame
-        emitterFrameLayer.frame = layer.frame
-        updateEmitterFrame()
+        withDisabledAnimations {
+            emitterLayer.frame = layer.frame
+            emitterFrameLayer.frame = layer.frame
+            updateEmitterFrame()
+        }
     }
 
     func updateEmitterFrame() {
@@ -75,6 +77,13 @@ class CAEmitterLayerView: UIView {
         frameLayer.fillColor = nil
         layer.addSublayer(frameLayer)
         return frameLayer
+    }
+
+    private func withDisabledAnimations(run block: () -> Void) {
+        CATransaction.begin()
+        CATransaction.setDisableActions(true)
+        block()
+        CATransaction.commit()
     }
 }
 
