@@ -28,6 +28,7 @@ struct CGFloatTextField: View {
             }
         )
         TextField("", text: numberProxy)
+            .keyboardType(.decimalPad)
     }
 
     private static func createNumberFormatter() -> NumberFormatter {
