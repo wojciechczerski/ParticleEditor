@@ -258,14 +258,14 @@ struct ContentView: View {
                 }
             case .birthrate:
                 HStack {
-                    Slider(value: $particleEmitter.birthrate, in: 0 ... 100)
+                    RoundingFloatSlider(value: $particleEmitter.birthrate, in: 0 ... 100)
                     CGFloatTextField(value: $particleEmitter.birthrate)
                         .inputFieldStyle()
                         .frame(width: 70)
                 }
             case .lifetime:
                 HStack {
-                    Slider(value: $particleEmitter.lifetime, in: 0 ... 20)
+                    RoundingFloatSlider(value: $particleEmitter.lifetime, in: 0 ... 20)
                     CGFloatTextField(value: $particleEmitter.lifetime)
                         .inputFieldStyle()
                         .frame(width: 70)
@@ -273,13 +273,13 @@ struct ContentView: View {
             case .velocity:
                 VStack {
                     HStack {
-                        Slider(value: $particleEmitter.velocity, in: -150 ... 150)
+                        RoundingFloatSlider(value: $particleEmitter.velocity, in: -150 ... 150)
                         CGFloatTextField(value: $particleEmitter.velocity)
                             .inputFieldStyle()
                             .frame(width: 70)
                     }
                     HStack {
-                        Slider(value: $particleEmitter.velocityRange, in: -100 ... 100)
+                        RoundingFloatSlider(value: $particleEmitter.velocityRange, in: -100 ... 100)
                         CGFloatTextField(value: $particleEmitter.velocityRange)
                             .inputFieldStyle()
                             .frame(width: 70)
@@ -301,6 +301,31 @@ struct ContentView: View {
                 }
             }
         }
+    }
+}
+
+struct RoundingFloatSlider: View {
+    @Binding var value: CGFloat
+    let range: ClosedRange<CGFloat>
+
+    init(value: Binding<CGFloat>, in range: ClosedRange<CGFloat>) {
+        _value = value
+        self.range = range
+    }
+
+    var body: some View {
+        Slider(value: roundingBinding(binding: $value), in: range)
+    }
+
+    private func roundingBinding(binding: Binding<CGFloat>) -> Binding<CGFloat> {
+        Binding<CGFloat>(
+            get: {
+                binding.wrappedValue
+            },
+            set: {
+                binding.wrappedValue = $0.rounded()
+            }
+        )
     }
 }
 
