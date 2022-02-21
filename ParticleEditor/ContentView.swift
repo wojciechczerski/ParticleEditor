@@ -286,16 +286,21 @@ struct ContentView: View {
                     }
                 }
             }
-            HStack {
-                Spacer()
-                Button(action: {
-                    let resign = #selector(UIResponder.resignFirstResponder)
-                    UIApplication.shared.sendAction(resign, to: nil, from: nil, for: nil)
-                }, label: {
-                    Image(systemName: "keyboard.chevron.compact.down")
-                })
+        }
+        .padding()
+        .toolbar {
+            ToolbarItemGroup(placement: .keyboard) {
+                HStack {
+                    Spacer()
+                    Button(action: {
+                        let resign = #selector(UIResponder.resignFirstResponder)
+                        UIApplication.shared.sendAction(resign, to: nil, from: nil, for: nil)
+                    }, label: {
+                        Image(systemName: "keyboard.chevron.compact.down")
+                    })
+                }
             }
-        }.padding()
+        }
     }
 }
 
