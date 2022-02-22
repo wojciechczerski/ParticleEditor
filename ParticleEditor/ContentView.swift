@@ -68,6 +68,7 @@ class CAEmitterLayerView: UIView {
         emitterLayer.anchorPoint = .zero
         emitterLayer.emitterShape = .rectangle
         layer.addSublayer(emitterLayer)
+        layer.masksToBounds = true
         return emitterLayer
     }
 
