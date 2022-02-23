@@ -183,49 +183,20 @@ struct ContentView: View {
                 .gesture(
                     DragGesture()
                         .onChanged { value in
-                            var position = self.particleEmitter.position
-                            if let initialPosition = emitterPositionBeforeDrag {
-                                position = initialPosition
-                            } else {
-                                emitterPositionBeforeDrag = position
-                            }
-                            self.particleEmitter.position = CGPoint(x: position.x + value.translation.width,
-                                                                    y: position.y + value.translation.height)
+                            self.updateEmitterPosition(drag: value.translation)
                         }
                         .onEnded { value in
-                            var position = self.particleEmitter.position
-                            if let initialPosition = emitterPositionBeforeDrag {
-                                position = initialPosition
-                            } else {
-                                emitterPositionBeforeDrag = position
-                            }
-                            self.particleEmitter.position = CGPoint(x: position.x + value.translation.width,
-                                                                    y: position.y + value.translation.height)
-
+                            self.updateEmitterPosition(drag: value.translation)
                             emitterPositionBeforeDrag = nil
                         }
                 )
                 .gesture(
                     MagnificationGesture()
                         .onChanged { value in
-                            var size = self.particleEmitter.size
-                            if let initialSize = emitterSizeBeforeZoom {
-                                size = initialSize
-                            } else {
-                                emitterSizeBeforeZoom = size
-                            }
-                            self.particleEmitter.size = CGSize(width: size.width * value,
-                                                               height: size.height * value)
+                            self.updateEmitterSize(scale: value)
                         }
                         .onEnded { value in
-                            var size = self.particleEmitter.size
-                            if let initialSize = emitterSizeBeforeZoom {
-                                size = initialSize
-                            } else {
-                                emitterSizeBeforeZoom = size
-                            }
-                            self.particleEmitter.size = CGSize(width: size.width * value,
-                                                               height: size.height * value)
+                            self.updateEmitterSize(scale: value)
                             emitterSizeBeforeZoom = nil
                         }
                 )
@@ -302,6 +273,28 @@ struct ContentView: View {
                 }
             }
         }
+    }
+
+    private func updateEmitterPosition(drag translation: CGSize) {
+        var newPosition = particleEmitter.position
+        if let initialPosition = emitterPositionBeforeDrag {
+            newPosition = initialPosition
+        } else {
+            emitterPositionBeforeDrag = newPosition
+        }
+        particleEmitter.position = CGPoint(x: newPosition.x + translation.width,
+                                           y: newPosition.y + translation.height)
+    }
+
+    private func updateEmitterSize(scale: CGFloat) {
+        var newSize = particleEmitter.size
+        if let initialSize = emitterSizeBeforeZoom {
+            newSize = initialSize
+        } else {
+            emitterSizeBeforeZoom = newSize
+        }
+        particleEmitter.size = CGSize(width: newSize.width * scale,
+                                      height: newSize.height * scale)
     }
 }
 
