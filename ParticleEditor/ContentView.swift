@@ -127,8 +127,7 @@ struct ParticleEmitterView: UIViewRepresentable {
 struct InputFieldStyle: ViewModifier {
     func body(content: Content) -> some View {
         content
-            .padding(8)
-            .border(Color.black, width: 1)
+            .textFieldStyle(.roundedBorder)
     }
 }
 
