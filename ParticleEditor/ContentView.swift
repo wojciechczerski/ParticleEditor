@@ -10,6 +10,7 @@ class ParticleEmitter: ObservableObject {
     @Published var lifetime: CGFloat = 0
     @Published var velocity: CGFloat = 0
     @Published var velocityRange: CGFloat = 0
+    @Published var color: Color = .white
 }
 
 struct InputFieldStyle: ViewModifier {
@@ -31,6 +32,7 @@ enum Property: String, CaseIterable, Identifiable {
     case birthrate = "Birthrate"
     case lifetime = "Lifetime"
     case velocity = "Velocity"
+    case color = "Color"
 
     var id: String { rawValue }
 }
@@ -144,6 +146,8 @@ struct ContentView: View {
                             .frame(width: 70)
                     }
                 }
+            case .color:
+                CompactPickerView(selectedColor: $particleEmitter.color)
             }
         }
         .padding()
