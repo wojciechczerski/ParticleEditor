@@ -15,7 +15,7 @@ struct ParticleEmitterView: UIViewRepresentable {
 
     func makeUIView(context _: Context) -> CAEmitterLayerView {
         let view = CAEmitterLayerView()
-        view.emitterLayer.backgroundColor = UIColor.blue.cgColor
+        view.emitterLayer.backgroundColor = UIColor.black.cgColor
         return view
     }
 
