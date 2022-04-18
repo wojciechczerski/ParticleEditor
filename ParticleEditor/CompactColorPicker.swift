@@ -39,32 +39,44 @@ struct CompactPickerView: View {
                 let modifiedColors = hues.map {
                     Color(hue: $0, saturation: saturation, brightness: brightness, opacity: alpha)
                 }
-                LinearGradient(colors: modifiedColors, startPoint: .leading, endPoint: .trailing)
-                    .frame(height: 40)
+                ZStack {
+                    CheckerPattern()
+                    LinearGradient(colors: modifiedColors, startPoint: .leading, endPoint: .trailing)
+                }
+                .frame(height: 40)
                 ColorSlider(value: bindingProxy($hue), color: $color)
             case .saturation:
                 let colors = [
                     Color(hue: hue, saturation: 0, brightness: brightness, opacity: alpha),
                     Color(hue: hue, saturation: 1, brightness: brightness, opacity: alpha)
                 ]
-                LinearGradient(colors: colors, startPoint: .leading, endPoint: .trailing)
-                    .frame(height: 40)
+                ZStack {
+                    CheckerPattern()
+                    LinearGradient(colors: colors, startPoint: .leading, endPoint: .trailing)
+                }
+                .frame(height: 40)
                 ColorSlider(value: bindingProxy($saturation), color: $color)
             case .brightness:
                 let colors = [
                     Color(hue: hue, saturation: saturation, brightness: 0, opacity: alpha),
                     Color(hue: hue, saturation: saturation, brightness: 1, opacity: alpha)
                 ]
-                LinearGradient(colors: colors, startPoint: .leading, endPoint: .trailing)
-                    .frame(height: 40)
+                ZStack {
+                    CheckerPattern()
+                    LinearGradient(colors: colors, startPoint: .leading, endPoint: .trailing)
+                }
+                .frame(height: 40)
                 ColorSlider(value: bindingProxy($brightness), color: $color)
             case .alpha:
                 let colors = [
                     Color(hue: hue, saturation: saturation, brightness: brightness, opacity: 0),
                     Color(hue: hue, saturation: saturation, brightness: brightness, opacity: 1)
                 ]
-                LinearGradient(colors: colors, startPoint: .leading, endPoint: .trailing)
-                    .frame(height: 40)
+                ZStack {
+                    CheckerPattern()
+                    LinearGradient(colors: colors, startPoint: .leading, endPoint: .trailing)
+                }
+                .frame(height: 40)
                 ColorSlider(value: bindingProxy($alpha), color: $color)
             }
         }
