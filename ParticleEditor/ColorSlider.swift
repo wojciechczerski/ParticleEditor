@@ -9,7 +9,7 @@ struct ColorSlider<T: BinaryFloatingPoint>: UIViewRepresentable {
     func makeUIView(context _: Context) -> CustomSlider<T> {
         let slider = CustomSlider<T>()
         slider.valueBinding = _value
-        slider.maximumValue = 0.99
+        slider.maximumValue = 1
         slider.minimumTrackTintColor = #colorLiteral(red: 0.796662415, green: 0.796662415, blue: 0.796662415, alpha: 1)
         slider.maximumTrackTintColor = #colorLiteral(red: 0.796662415, green: 0.796662415, blue: 0.796662415, alpha: 1)
         return slider

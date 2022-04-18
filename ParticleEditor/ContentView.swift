@@ -147,7 +147,7 @@ struct ContentView: View {
                     }
                 }
             case .color:
-                CompactPickerView(selectedColor: $particleEmitter.color)
+                CompactPickerView(color: $particleEmitter.color)
             }
         }
         .padding()

@@ -10,8 +10,20 @@ struct CompactPickerView: View {
         case alpha
     }
 
-    @Binding var selectedColor: Color
+    @Binding var color: Color
     @State private var selectedColorAttribute = ColorAttribute.hue
+    @State private var hue = CGFloat.zero
+    @State private var saturation: CGFloat = 1.0
+    @State private var brightness: CGFloat = 1.0
+    @State private var alpha: CGFloat = 1.0
+
+    init(color: Binding<Color>) {
+        _color = color
+        hue = color.wrappedValue.hue
+        saturation = color.wrappedValue.saturation
+        brightness = color.wrappedValue.brightness
+        alpha = color.wrappedValue.alpha
+    }
 
     var body: some View {
         VStack {
@@ -23,58 +35,52 @@ struct CompactPickerView: View {
             }.pickerStyle(.segmented)
             switch selectedColorAttribute {
             case .hue:
-                let bindingProxy = Binding<CGFloat>(
-                    get: {
-                        selectedColor.hue
-                    }, set: {
-                        selectedColor = selectedColor.with(hue: $0)
-                    }
-                )
                 let hues = Array(stride(from: 0.0, to: 1.0, by: 0.05))
                 let modifiedColors = hues.map {
-                    selectedColor.with(hue: $0)
+                    Color(hue: $0, saturation: saturation, brightness: brightness, opacity: alpha)
                 }
                 LinearGradient(colors: modifiedColors, startPoint: .leading, endPoint: .trailing)
                     .frame(height: 40)
-                ColorSlider(value: bindingProxy, color: $selectedColor)
+                ColorSlider(value: bindingProxy($hue), color: $color)
             case .saturation:
-                let bindingProxy = Binding<CGFloat>(
-                    get: {
-                        selectedColor.saturation
-                    }, set: {
-                        selectedColor = selectedColor.with(saturation: $0)
-                    }
-                )
-                let colors = [selectedColor.with(saturation: 0), selectedColor.with(saturation: 1)]
+                let colors = [
+                    Color(hue: hue, saturation: 0, brightness: brightness, opacity: alpha),
+                    Color(hue: hue, saturation: 1, brightness: brightness, opacity: alpha)
+                ]
                 LinearGradient(colors: colors, startPoint: .leading, endPoint: .trailing)
                     .frame(height: 40)
-                ColorSlider(value: bindingProxy, color: $selectedColor)
+                ColorSlider(value: bindingProxy($saturation), color: $color)
             case .brightness:
-                let bindingProxy = Binding<CGFloat>(
-                    get: {
-                        selectedColor.brightness
-                    }, set: {
-                        selectedColor = selectedColor.with(brightness: $0)
-                    }
-                )
-                let colors = [selectedColor.with(brightness: 0), selectedColor.with(brightness: 1)]
+                let colors = [
+                    Color(hue: hue, saturation: saturation, brightness: 0, opacity: alpha),
+                    Color(hue: hue, saturation: saturation, brightness: 1, opacity: alpha)
+                ]
                 LinearGradient(colors: colors, startPoint: .leading, endPoint: .trailing)
                     .frame(height: 40)
-                ColorSlider(value: bindingProxy, color: $selectedColor)
+                ColorSlider(value: bindingProxy($brightness), color: $color)
             case .alpha:
-                let bindingProxy = Binding<CGFloat>(
-                    get: {
-                        selectedColor.alpha
-                    }, set: {
-                        selectedColor = selectedColor.with(alpha: $0)
-                    }
-                )
-                let colors = [selectedColor.with(alpha: 0), selectedColor.with(alpha: 1)]
+                let colors = [
+                    Color(hue: hue, saturation: saturation, brightness: brightness, opacity: 0),
+                    Color(hue: hue, saturation: saturation, brightness: brightness, opacity: 1)
+                ]
                 LinearGradient(colors: colors, startPoint: .leading, endPoint: .trailing)
                     .frame(height: 40)
-                ColorSlider(value: bindingProxy, color: $selectedColor)
+                ColorSlider(value: bindingProxy($alpha), color: $color)
             }
         }
+    }
+
+    private func bindingProxy(_ binding: Binding<CGFloat>) -> Binding<CGFloat> {
+        .init(get: {
+            binding.wrappedValue
+        }, set: {
+            binding.wrappedValue = $0
+            updateColor()
+        })
+    }
+
+    private func updateColor() {
+        color = Color(hue: hue, saturation: saturation, brightness: brightness, opacity: alpha)
     }
 }
 
@@ -82,7 +88,7 @@ struct CompactPickerView_Previews: PreviewProvider {
     @State static var color = Color.red
 
     static var previews: some View {
-        CompactPickerView(selectedColor: $color)
+        CompactPickerView(color: $color)
             .previewLayout(.fixed(width: 320, height: 200))
     }
 }
