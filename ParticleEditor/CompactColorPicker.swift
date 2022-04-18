@@ -27,12 +27,17 @@ struct CompactPickerView: View {
 
     var body: some View {
         VStack {
-            Picker("", selection: $selectedColorAttribute) {
-                Text("Hue").tag(ColorAttribute.hue)
-                Text("Saturation").tag(ColorAttribute.saturation)
-                Text("Brightness").tag(ColorAttribute.brightness)
-                Text("Alpha").tag(ColorAttribute.alpha)
-            }.pickerStyle(.segmented)
+            HStack {
+                Picker("", selection: $selectedColorAttribute) {
+                    Text("Hue").tag(ColorAttribute.hue)
+                    Text("Saturation").tag(ColorAttribute.saturation)
+                    Text("Brightness").tag(ColorAttribute.brightness)
+                    Text("Alpha").tag(ColorAttribute.alpha)
+                }.pickerStyle(.segmented)
+                    .controlSize(.regular)
+                ColorPicker("", selection: colorPickerBindingProxy())
+                    .fixedSize()
+            }
             switch selectedColorAttribute {
             case .hue:
                 let hues = Array(stride(from: 0.0, to: 1.0, by: 0.05))
@@ -88,6 +93,18 @@ struct CompactPickerView: View {
         }, set: {
             binding.wrappedValue = $0
             updateColor()
+        })
+    }
+
+    private func colorPickerBindingProxy() -> Binding<Color> {
+        .init(get: {
+            color
+        }, set: {
+            color = $0
+            hue = $0.hue
+            saturation = $0.saturation
+            brightness = $0.brightness
+            alpha = $0.alpha
         })
     }
 
