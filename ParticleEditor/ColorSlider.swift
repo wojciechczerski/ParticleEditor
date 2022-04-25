@@ -18,6 +18,6 @@ struct ColorSlider<T: BinaryFloatingPoint>: UIViewRepresentable {
     func updateUIView(_ slider: CustomSlider<T>, context _: Context) {
         slider.valueBinding = _value
         slider.value = Float(value)
-        slider.thumbTintColor = UIColor(color)
+        slider.setThumb(color: UIColor(color))
     }
 }
