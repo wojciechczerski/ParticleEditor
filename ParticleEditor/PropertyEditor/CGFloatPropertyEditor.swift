@@ -10,7 +10,6 @@ struct CGFloatPropertyEditor: View {
         HStack {
             RoundingFloatSlider(value: $value, in: range)
             CGFloatTextField(value: $value)
-                .inputFieldStyle()
                 .frame(width: 70)
         }
     }

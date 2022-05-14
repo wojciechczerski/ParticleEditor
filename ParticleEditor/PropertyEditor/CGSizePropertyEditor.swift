@@ -9,10 +9,8 @@ struct CGSizePropertyEditor: View {
         HStack {
             Text("Width")
             CGFloatTextField(value: $size.width)
-                .inputFieldStyle()
             Text("Height")
             CGFloatTextField(value: $size.height)
-                .inputFieldStyle()
         }
     }
 }

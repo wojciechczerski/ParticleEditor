@@ -9,10 +9,8 @@ struct CGPointPropertyEditor: View {
         HStack {
             Text("X")
             CGFloatTextField(value: $point.x)
-                .inputFieldStyle()
             Text("Y")
             CGFloatTextField(value: $point.y)
-                .inputFieldStyle()
         }
     }
 }

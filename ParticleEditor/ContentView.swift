@@ -13,19 +13,6 @@ class ParticleEmitter: ObservableObject {
     @Published var color: Color = .white
 }
 
-struct InputFieldStyle: ViewModifier {
-    func body(content: Content) -> some View {
-        content
-            .textFieldStyle(.roundedBorder)
-    }
-}
-
-extension View {
-    func inputFieldStyle() -> some View {
-        modifier(InputFieldStyle())
-    }
-}
-
 struct ContentView: View {
     @StateObject var particleEmitter: ParticleEmitter
     @State var editedProperty = Property.birthrate
@@ -89,6 +76,7 @@ struct ContentView: View {
                     CompactPickerView(color: $particleEmitter.color)
                 }
             }
+            .textFieldStyle(.roundedBorder)
             .navigationBarHidden(true)
             .navigationBarTitleDisplayMode(.inline)
             .padding()
