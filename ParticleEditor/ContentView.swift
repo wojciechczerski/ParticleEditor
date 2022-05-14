@@ -26,50 +26,6 @@ extension View {
     }
 }
 
-enum Property: String, CaseIterable, Identifiable {
-    case position = "Position"
-    case size = "Size"
-    case birthrate = "Birthrate"
-    case lifetime = "Lifetime"
-    case velocity = "Velocity"
-    case color = "Color"
-
-    var id: String { rawValue }
-}
-
-struct PropertyButtonStyle: ButtonStyle {
-    let selected: Bool
-
-    func makeBody(configuration: Configuration) -> some View {
-        configuration.label
-            .padding(4)
-            .border(Color.black)
-            .foregroundColor(selected ? Color.white : Color.black)
-            .background(selected ? Color.black : Color.clear)
-    }
-}
-
-struct PropertyList: View {
-    @Binding var editedProperty: Property
-    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
-
-    var body: some View {
-        List(Property.allCases) { property in
-            HStack {
-                Button(property.rawValue) {
-                    editedProperty = property
-                    presentationMode.wrappedValue.dismiss()
-                }
-                if property == editedProperty {
-                    Spacer()
-                    Image(systemName: "checkmark")
-                        .foregroundColor(.blue)
-                }
-            }
-        }.listStyle(.plain)
-    }
-}
-
 struct ContentView: View {
     @StateObject var particleEmitter: ParticleEmitter
     @State var editedProperty = Property.birthrate
@@ -173,31 +129,6 @@ struct ContentView: View {
         }
         particleEmitter.size = CGSize(width: newSize.width * scale,
                                       height: newSize.height * scale)
-    }
-}
-
-struct RoundingFloatSlider: View {
-    @Binding var value: CGFloat
-    let range: ClosedRange<CGFloat>
-
-    init(value: Binding<CGFloat>, in range: ClosedRange<CGFloat>) {
-        _value = value
-        self.range = range
-    }
-
-    var body: some View {
-        Slider(value: roundingBinding(binding: $value), in: range)
-    }
-
-    private func roundingBinding(binding: Binding<CGFloat>) -> Binding<CGFloat> {
-        Binding<CGFloat>(
-            get: {
-                binding.wrappedValue
-            },
-            set: {
-                binding.wrappedValue = $0.rounded()
-            }
-        )
     }
 }
 
