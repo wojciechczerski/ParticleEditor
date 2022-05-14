@@ -57,7 +57,6 @@ struct PropertyList: View {
         List(Property.allCases) { property in
             HStack {
                 Button(property.rawValue) {
-                    print(property)
                     editedProperty = property
                     presentationMode.wrappedValue.dismiss()
                 }
@@ -117,51 +116,18 @@ struct ContentView: View {
                 }
                 switch editedProperty {
                 case .position:
-                    HStack {
-                        Text("X")
-                        CGFloatTextField(value: $particleEmitter.position.x)
-                            .inputFieldStyle()
-                        Text("Y")
-                        CGFloatTextField(value: $particleEmitter.position.y)
-                            .inputFieldStyle()
-                    }
+                    CGPointPropertyEditor(point: $particleEmitter.position)
                 case .size:
-                    HStack {
-                        Text("Width")
-                        CGFloatTextField(value: $particleEmitter.size.width)
-                            .inputFieldStyle()
-                        Text("Height")
-                        CGFloatTextField(value: $particleEmitter.size.height)
-                            .inputFieldStyle()
-                    }
+                    CGSizePropertyEditor(size: $particleEmitter.size)
                 case .birthrate:
-                    HStack {
-                        RoundingFloatSlider(value: $particleEmitter.birthrate, in: 0 ... 100)
-                        CGFloatTextField(value: $particleEmitter.birthrate)
-                            .inputFieldStyle()
-                            .frame(width: 70)
-                    }
+                    CGFloatPropertyEditor(value: $particleEmitter.birthrate, range: 0 ... 100)
                 case .lifetime:
-                    HStack {
-                        RoundingFloatSlider(value: $particleEmitter.lifetime, in: 0 ... 20)
-                        CGFloatTextField(value: $particleEmitter.lifetime)
-                            .inputFieldStyle()
-                            .frame(width: 70)
-                    }
+                    CGFloatPropertyEditor(value: $particleEmitter.lifetime, range: 0 ... 20)
                 case .velocity:
                     VStack {
-                        HStack {
-                            RoundingFloatSlider(value: $particleEmitter.velocity, in: -150 ... 150)
-                            CGFloatTextField(value: $particleEmitter.velocity)
-                                .inputFieldStyle()
-                                .frame(width: 70)
-                        }
-                        HStack {
-                            RoundingFloatSlider(value: $particleEmitter.velocityRange, in: -100 ... 100)
-                            CGFloatTextField(value: $particleEmitter.velocityRange)
-                                .inputFieldStyle()
-                                .frame(width: 70)
-                        }
+                        CGFloatPropertyEditor(value: $particleEmitter.velocity, range: -150 ... 150)
+                        CGFloatPropertyEditor(value: $particleEmitter.velocityRange,
+                                              range: -100 ... 100)
                     }
                 case .color:
                     CompactPickerView(color: $particleEmitter.color)
