@@ -49,6 +49,28 @@ struct PropertyButtonStyle: ButtonStyle {
     }
 }
 
+struct PropertyList: View {
+    @Binding var editedProperty: Property
+    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+
+    var body: some View {
+        List(Property.allCases) { property in
+            HStack {
+                Button(property.rawValue) {
+                    print(property)
+                    editedProperty = property
+                    presentationMode.wrappedValue.dismiss()
+                }
+                if property == editedProperty {
+                    Spacer()
+                    Image(systemName: "checkmark")
+                        .foregroundColor(.blue)
+                }
+            }
+        }.listStyle(.plain)
+    }
+}
+
 struct ContentView: View {
     @StateObject var particleEmitter: ParticleEmitter
     @State var editedProperty = Property.birthrate
@@ -67,103 +89,102 @@ struct ContentView: View {
     }
 
     var body: some View {
-        VStack(alignment: .leading) {
-            ParticleEmitterView(emitter: particleEmitter)
-                .gesture(
-                    DragGesture()
-                        .onChanged { value in
-                            self.updateEmitterPosition(drag: value.translation)
-                        }
-                        .onEnded { value in
-                            self.updateEmitterPosition(drag: value.translation)
-                            emitterPositionBeforeDrag = nil
-                        }
-                )
-                .gesture(
-                    MagnificationGesture()
-                        .onChanged { value in
-                            self.updateEmitterSize(scale: value)
-                        }
-                        .onEnded { value in
-                            self.updateEmitterSize(scale: value)
-                            emitterSizeBeforeZoom = nil
-                        }
-                )
-            ScrollView(.horizontal) {
-                HStack(spacing: 0) {
-                    ForEach(Property.allCases) { property in
-                        Button(property.rawValue) {
-                            editedProperty = property
-                        }.buttonStyle(PropertyButtonStyle(selected: property == editedProperty))
-                    }
+        NavigationView {
+            VStack(alignment: .leading) {
+                ParticleEmitterView(emitter: particleEmitter)
+                    .gesture(
+                        DragGesture()
+                            .onChanged { value in
+                                self.updateEmitterPosition(drag: value.translation)
+                            }
+                            .onEnded { value in
+                                self.updateEmitterPosition(drag: value.translation)
+                                emitterPositionBeforeDrag = nil
+                            }
+                    )
+                    .gesture(
+                        MagnificationGesture()
+                            .onChanged { value in
+                                self.updateEmitterSize(scale: value)
+                            }
+                            .onEnded { value in
+                                self.updateEmitterSize(scale: value)
+                                emitterSizeBeforeZoom = nil
+                            }
+                    )
+                NavigationLink(destination: PropertyList(editedProperty: $editedProperty)) {
+                    Text("\(editedProperty.rawValue)")
                 }
-            }
-            switch editedProperty {
-            case .position:
-                HStack {
-                    Text("X")
-                    CGFloatTextField(value: $particleEmitter.position.x)
-                        .inputFieldStyle()
-                    Text("Y")
-                    CGFloatTextField(value: $particleEmitter.position.y)
-                        .inputFieldStyle()
-                }
-            case .size:
-                HStack {
-                    Text("Width")
-                    CGFloatTextField(value: $particleEmitter.size.width)
-                        .inputFieldStyle()
-                    Text("Height")
-                    CGFloatTextField(value: $particleEmitter.size.height)
-                        .inputFieldStyle()
-                }
-            case .birthrate:
-                HStack {
-                    RoundingFloatSlider(value: $particleEmitter.birthrate, in: 0 ... 100)
-                    CGFloatTextField(value: $particleEmitter.birthrate)
-                        .inputFieldStyle()
-                        .frame(width: 70)
-                }
-            case .lifetime:
-                HStack {
-                    RoundingFloatSlider(value: $particleEmitter.lifetime, in: 0 ... 20)
-                    CGFloatTextField(value: $particleEmitter.lifetime)
-                        .inputFieldStyle()
-                        .frame(width: 70)
-                }
-            case .velocity:
-                VStack {
+                switch editedProperty {
+                case .position:
                     HStack {
-                        RoundingFloatSlider(value: $particleEmitter.velocity, in: -150 ... 150)
-                        CGFloatTextField(value: $particleEmitter.velocity)
+                        Text("X")
+                        CGFloatTextField(value: $particleEmitter.position.x)
+                            .inputFieldStyle()
+                        Text("Y")
+                        CGFloatTextField(value: $particleEmitter.position.y)
+                            .inputFieldStyle()
+                    }
+                case .size:
+                    HStack {
+                        Text("Width")
+                        CGFloatTextField(value: $particleEmitter.size.width)
+                            .inputFieldStyle()
+                        Text("Height")
+                        CGFloatTextField(value: $particleEmitter.size.height)
+                            .inputFieldStyle()
+                    }
+                case .birthrate:
+                    HStack {
+                        RoundingFloatSlider(value: $particleEmitter.birthrate, in: 0 ... 100)
+                        CGFloatTextField(value: $particleEmitter.birthrate)
                             .inputFieldStyle()
                             .frame(width: 70)
                     }
+                case .lifetime:
                     HStack {
-                        RoundingFloatSlider(value: $particleEmitter.velocityRange, in: -100 ... 100)
-                        CGFloatTextField(value: $particleEmitter.velocityRange)
+                        RoundingFloatSlider(value: $particleEmitter.lifetime, in: 0 ... 20)
+                        CGFloatTextField(value: $particleEmitter.lifetime)
                             .inputFieldStyle()
                             .frame(width: 70)
                     }
+                case .velocity:
+                    VStack {
+                        HStack {
+                            RoundingFloatSlider(value: $particleEmitter.velocity, in: -150 ... 150)
+                            CGFloatTextField(value: $particleEmitter.velocity)
+                                .inputFieldStyle()
+                                .frame(width: 70)
+                        }
+                        HStack {
+                            RoundingFloatSlider(value: $particleEmitter.velocityRange, in: -100 ... 100)
+                            CGFloatTextField(value: $particleEmitter.velocityRange)
+                                .inputFieldStyle()
+                                .frame(width: 70)
+                        }
+                    }
+                case .color:
+                    CompactPickerView(color: $particleEmitter.color)
                 }
-            case .color:
-                CompactPickerView(color: $particleEmitter.color)
+            }
+            .navigationBarHidden(true)
+            .navigationBarTitleDisplayMode(.inline)
+            .padding()
+            .toolbar {
+                ToolbarItemGroup(placement: .keyboard) {
+                    HStack {
+                        Spacer()
+                        Button(action: {
+                            let resign = #selector(UIResponder.resignFirstResponder)
+                            UIApplication.shared.sendAction(resign, to: nil, from: nil, for: nil)
+                        }, label: {
+                            Image(systemName: "keyboard.chevron.compact.down")
+                        })
+                    }
+                }
             }
         }
-        .padding()
-        .toolbar {
-            ToolbarItemGroup(placement: .keyboard) {
-                HStack {
-                    Spacer()
-                    Button(action: {
-                        let resign = #selector(UIResponder.resignFirstResponder)
-                        UIApplication.shared.sendAction(resign, to: nil, from: nil, for: nil)
-                    }, label: {
-                        Image(systemName: "keyboard.chevron.compact.down")
-                    })
-                }
-            }
-        }
+        .navigationViewStyle(StackNavigationViewStyle())
     }
 
     private func updateEmitterPosition(drag translation: CGSize) {
