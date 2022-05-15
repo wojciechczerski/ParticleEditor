@@ -12,7 +12,7 @@
 		C2018EB527C6EFB00037EFC0 /* ParticleEmitterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2018EB427C6EFB00037EFC0 /* ParticleEmitterView.swift */; };
 		C2018EB727C982810037EFC0 /* CompactColorPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2018EB627C982810037EFC0 /* CompactColorPicker.swift */; };
 		C202683826FA85F400C16825 /* ParticleEditorApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C202683726FA85F400C16825 /* ParticleEditorApp.swift */; };
-		C202683A26FA85F400C16825 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C202683926FA85F400C16825 /* ContentView.swift */; };
+		C202683A26FA85F400C16825 /* ParticleEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C202683926FA85F400C16825 /* ParticleEditor.swift */; };
 		C202683C26FA85F500C16825 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C202683B26FA85F500C16825 /* Assets.xcassets */; };
 		C202683F26FA85F500C16825 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C202683E26FA85F500C16825 /* Preview Assets.xcassets */; };
 		C248BA05280DC45A00FE302D /* CheckerPattern.swift in Sources */ = {isa = PBXBuildFile; fileRef = C248BA04280DC45A00FE302D /* CheckerPattern.swift */; };
@@ -36,7 +36,7 @@
 		C2018EB627C982810037EFC0 /* CompactColorPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompactColorPicker.swift; sourceTree = "<group>"; };
 		C202683426FA85F400C16825 /* ParticleEditor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ParticleEditor.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C202683726FA85F400C16825 /* ParticleEditorApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParticleEditorApp.swift; sourceTree = "<group>"; };
-		C202683926FA85F400C16825 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		C202683926FA85F400C16825 /* ParticleEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParticleEditor.swift; sourceTree = "<group>"; };
 		C202683B26FA85F500C16825 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C202683E26FA85F500C16825 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		C202684026FA85F500C16825 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -85,7 +85,7 @@
 			isa = PBXGroup;
 			children = (
 				C202684026FA85F500C16825 /* Info.plist */,
-				C202683926FA85F400C16825 /* ContentView.swift */,
+				C202683926FA85F400C16825 /* ParticleEditor.swift */,
 				C202683726FA85F400C16825 /* ParticleEditorApp.swift */,
 				C202683B26FA85F500C16825 /* Assets.xcassets */,
 				C27C94222830CAB900A1460E /* Emitter */,
@@ -268,7 +268,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C27C941B28301CFF00A1460E /* CGFloatPropertyEditor.swift in Sources */,
-				C202683A26FA85F400C16825 /* ContentView.swift in Sources */,
+				C202683A26FA85F400C16825 /* ParticleEditor.swift in Sources */,
 				C27C94242830CAF200A1460E /* ParticleEmitter.swift in Sources */,
 				C2F76B73280ADA460066690D /* ColorSlider.swift in Sources */,
 				C27C9421283051B800A1460E /* Property.swift in Sources */,

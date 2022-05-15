@@ -6,7 +6,7 @@ import SwiftUI
 struct ParticleEditorApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ParticleEditor()
         }
     }
 }

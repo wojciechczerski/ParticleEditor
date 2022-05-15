@@ -3,7 +3,7 @@
 import Combine
 import SwiftUI
 
-struct ContentView: View {
+struct ParticleEditor: View {
     @StateObject var particleEmitter: ParticleEmitter
     @State var editedProperty = Property.birthrate
     @State var emitterPositionBeforeDrag: CGPoint?
@@ -112,6 +112,6 @@ struct ContentView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        ParticleEditor()
     }
 }
