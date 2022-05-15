@@ -89,19 +89,19 @@
 				C202683726FA85F400C16825 /* ParticleEditorApp.swift */,
 				C202683B26FA85F500C16825 /* Assets.xcassets */,
 				C27C94222830CAB900A1460E /* Emitter */,
-				C202683D26FA85F500C16825 /* Preview Content */,
+				C202683D26FA85F500C16825 /* Preview */,
 				C27C94252830D32F00A1460E /* Property */,
 				C27C94272830D6F000A1460E /* Shared */,
 			);
 			path = ParticleEditor;
 			sourceTree = "<group>";
 		};
-		C202683D26FA85F500C16825 /* Preview Content */ = {
+		C202683D26FA85F500C16825 /* Preview */ = {
 			isa = PBXGroup;
 			children = (
 				C202683E26FA85F500C16825 /* Preview Assets.xcassets */,
 			);
-			path = "Preview Content";
+			path = Preview;
 			sourceTree = "<group>";
 		};
 		C27C941528301C1100A1460E /* Editor */ = {
@@ -413,7 +413,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_ASSET_PATHS = "\"ParticleEditor/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"ParticleEditor/Preview\"";
 				DEVELOPMENT_TEAM = 8G9KF69PBC;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = ParticleEditor/Info.plist;
@@ -435,7 +435,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_ASSET_PATHS = "\"ParticleEditor/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"ParticleEditor/Preview\"";
 				DEVELOPMENT_TEAM = 8G9KF69PBC;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = ParticleEditor/Info.plist;
