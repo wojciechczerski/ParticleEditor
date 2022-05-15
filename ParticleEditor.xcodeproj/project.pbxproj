@@ -24,6 +24,7 @@
 		C27C941F2830518400A1460E /* PropertyList.swift in Sources */ = {isa = PBXBuildFile; fileRef = C27C941E2830518400A1460E /* PropertyList.swift */; };
 		C27C9421283051B800A1460E /* Property.swift in Sources */ = {isa = PBXBuildFile; fileRef = C27C9420283051B800A1460E /* Property.swift */; };
 		C27C94242830CAF200A1460E /* ParticleEmitter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C27C94232830CAF200A1460E /* ParticleEmitter.swift */; };
+		C27C94292831844300A1460E /* CGFloatAnglePropertyEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C27C94282831844300A1460E /* CGFloatAnglePropertyEditor.swift */; };
 		C2F76B6F280A06890066690D /* Color+HSBA.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F76B6E280A06890066690D /* Color+HSBA.swift */; };
 		C2F76B71280AD97C0066690D /* CustomSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F76B70280AD97C0066690D /* CustomSlider.swift */; };
 		C2F76B73280ADA460066690D /* ColorSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F76B72280ADA460066690D /* ColorSlider.swift */; };
@@ -49,6 +50,7 @@
 		C27C941E2830518400A1460E /* PropertyList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PropertyList.swift; sourceTree = "<group>"; };
 		C27C9420283051B800A1460E /* Property.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Property.swift; sourceTree = "<group>"; };
 		C27C94232830CAF200A1460E /* ParticleEmitter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParticleEmitter.swift; sourceTree = "<group>"; };
+		C27C94282831844300A1460E /* CGFloatAnglePropertyEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGFloatAnglePropertyEditor.swift; sourceTree = "<group>"; };
 		C2F76B6E280A06890066690D /* Color+HSBA.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+HSBA.swift"; sourceTree = "<group>"; };
 		C2F76B70280AD97C0066690D /* CustomSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSlider.swift; sourceTree = "<group>"; };
 		C2F76B72280ADA460066690D /* ColorSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorSlider.swift; sourceTree = "<group>"; };
@@ -107,6 +109,7 @@
 		C27C941528301C1100A1460E /* Editor */ = {
 			isa = PBXGroup;
 			children = (
+				C27C94282831844300A1460E /* CGFloatAnglePropertyEditor.swift */,
 				C27C941A28301CFF00A1460E /* CGFloatPropertyEditor.swift */,
 				C27C941628301C4300A1460E /* CGPointPropertyEditor.swift */,
 				C27C941828301C7200A1460E /* CGSizePropertyEditor.swift */,
@@ -284,6 +287,7 @@
 				C27C941D2830506700A1460E /* RoundingFloatSlider.swift in Sources */,
 				C27C941F2830518400A1460E /* PropertyList.swift in Sources */,
 				C2018EB527C6EFB00037EFC0 /* ParticleEmitterView.swift in Sources */,
+				C27C94292831844300A1460E /* CGFloatAnglePropertyEditor.swift in Sources */,
 				C26D84AA2817603B00766504 /* UIImage+Ellipse.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -9,6 +9,8 @@ enum Property: String, CaseIterable, Identifiable {
     case lifetime = "Lifetime"
     case velocity = "Velocity"
     case color = "Color"
+    case emissionLongitude = "Emission Longitude"
+    case emissionRange = "Emission Range"
 
     var id: String { rawValue }
 }

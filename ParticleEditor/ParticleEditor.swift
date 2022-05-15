@@ -64,6 +64,10 @@ struct ParticleEditor: View {
                     }
                 case .color:
                     CompactPickerView(color: $particleEmitter.color)
+                case .emissionRange:
+                    CGFloatAnglePropertyEditor(radians: $particleEmitter.emissionRange)
+                case .emissionLongitude:
+                    CGFloatAnglePropertyEditor(radians: $particleEmitter.emissionLongitude)
                 }
             }
             .textFieldStyle(.roundedBorder)

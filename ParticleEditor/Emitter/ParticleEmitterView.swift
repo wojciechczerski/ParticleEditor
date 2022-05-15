@@ -26,8 +26,8 @@ struct ParticleEmitterView: UIViewRepresentable {
         cell.velocity = emitter.velocity
         cell.velocityRange = emitter.velocityRange
         cell.color = emitter.color.cgColor
-//        cell.emissionLongitude = .pi
-//        cell.emissionRange = .pi / 4
+        cell.emissionLongitude = emitter.emissionLongitude
+        cell.emissionRange = emitter.emissionRange
 //        cell.spinRange = .pi * 6
         cell.scaleRange = 0.25
         cell.scale = 1.0 - cell.scaleRange
