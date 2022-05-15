@@ -93,14 +93,12 @@
 				C202683926FA85F400C16825 /* ContentView.swift */,
 				C2F76B70280AD97C0066690D /* CustomSlider.swift */,
 				C202683726FA85F400C16825 /* ParticleEditorApp.swift */,
-				C27C9420283051B800A1460E /* Property.swift */,
-				C27C941E2830518400A1460E /* PropertyList.swift */,
 				C27C941C2830506700A1460E /* RoundingFloatSlider.swift */,
 				C26D84A92817603B00766504 /* UIImage+Ellipse.swift */,
 				C202683B26FA85F500C16825 /* Assets.xcassets */,
 				C27C94222830CAB900A1460E /* Emitter */,
 				C202683D26FA85F500C16825 /* Preview Content */,
-				C27C941528301C1100A1460E /* PropertyEditor */,
+				C27C94252830D32F00A1460E /* Property */,
 			);
 			path = ParticleEditor;
 			sourceTree = "<group>";
@@ -113,14 +111,14 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
-		C27C941528301C1100A1460E /* PropertyEditor */ = {
+		C27C941528301C1100A1460E /* Editor */ = {
 			isa = PBXGroup;
 			children = (
 				C27C941A28301CFF00A1460E /* CGFloatPropertyEditor.swift */,
 				C27C941628301C4300A1460E /* CGPointPropertyEditor.swift */,
 				C27C941828301C7200A1460E /* CGSizePropertyEditor.swift */,
 			);
-			path = PropertyEditor;
+			path = Editor;
 			sourceTree = "<group>";
 		};
 		C27C94222830CAB900A1460E /* Emitter */ = {
@@ -131,6 +129,16 @@
 				C2018EB427C6EFB00037EFC0 /* ParticleEmitterView.swift */,
 			);
 			path = Emitter;
+			sourceTree = "<group>";
+		};
+		C27C94252830D32F00A1460E /* Property */ = {
+			isa = PBXGroup;
+			children = (
+				C27C9420283051B800A1460E /* Property.swift */,
+				C27C941E2830518400A1460E /* PropertyList.swift */,
+				C27C941528301C1100A1460E /* Editor */,
+			);
+			path = Property;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
