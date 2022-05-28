@@ -10,9 +10,9 @@ struct CGFloatAnglePropertyEditor: View {
         HStack {
             let bindingProxy: Binding<CGFloat> = .init(
                 get: {
-                    radians * 180 / .pi
+                    radians.degrees
                 }, set: { degrees in
-                    radians = degrees * .pi / 180
+                    radians = degrees.radians
                 }
             )
             RoundingFloatSlider(value: bindingProxy, in: range)
