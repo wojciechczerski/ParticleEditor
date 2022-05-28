@@ -3,22 +3,27 @@
 import SwiftUI
 
 struct PropertyList: View {
-    @Binding var editedProperty: Property
+    let emitter: ParticleEmitter
+    let properties: [EmitterProperty]
+    @Binding var editedProperty: EmitterProperty
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
 
     var body: some View {
-        List(Property.allCases) { property in
-            HStack {
-                Button(property.rawValue) {
-                    editedProperty = property
-                    presentationMode.wrappedValue.dismiss()
+        List(properties, id: \.displayName) { property in
+            VStack(alignment: .leading) {
+                HStack {
+                    Button(property.displayName) {
+                        editedProperty = property
+                        presentationMode.wrappedValue.dismiss()
+                    }
+                    if property.displayName == editedProperty.displayName {
+                        Spacer()
+                        Image(systemName: "checkmark")
+                    }
                 }
-                if property == editedProperty {
-                    Spacer()
-                    Image(systemName: "checkmark")
-                        .foregroundColor(.blue)
-                }
+                Text(property.valueText)
+                    .font(.footnote)
             }
-        }.listStyle(.plain)
+        }
     }
 }

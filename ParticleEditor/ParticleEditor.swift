@@ -5,9 +5,11 @@ import SwiftUI
 
 struct ParticleEditor: View {
     @StateObject var particleEmitter: ParticleEmitter
-    @State var editedProperty = Property.birthrate
+    @State var editedProperty: EmitterProperty
     @State var emitterPositionBeforeDrag: CGPoint?
     @State var emitterSizeBeforeZoom: CGSize?
+
+    let properties: [EmitterProperty]
 
     init() {
         let emitter = ParticleEmitter()
@@ -18,6 +20,30 @@ struct ParticleEditor: View {
         emitter.velocity = 50
 
         _particleEmitter = StateObject(wrappedValue: emitter)
+
+        let birthrateProperty = CGFloatEmitterProperty(displayName: "Birthrate",
+                                                       property: emitter.property(\.birthrate),
+                                                       range: 0 ... 100)
+
+        properties = [
+            birthrateProperty,
+            CGPointEmitterProperty(displayName: "Position", property: emitter.property(\.position)),
+            CGSizeEmitterProperty(displayName: "Size", property: emitter.property(\.size)),
+            CGFloatEmitterProperty(displayName: "Lifetime", property: emitter.property(\.lifetime),
+                                   range: 0 ... 20),
+            CGFloatEmitterProperty(displayName: "Velocity", property: emitter.property(\.velocity),
+                                   range: -150 ... 150),
+            CGFloatEmitterProperty(displayName: "Velocity Range",
+                                   property: emitter.property(\.velocityRange),
+                                   range: -100 ... 100),
+            ColorEmitterProperty(displayName: "Color", property: emitter.property(\.color)),
+            CGFloatAngleEmitterProperty(displayName: "Emission Longitude",
+                                        property: emitter.property(\.emissionLongitude)),
+            CGFloatAngleEmitterProperty(displayName: "Emission Range",
+                                        property: emitter.property(\.emissionRange))
+        ]
+
+        _editedProperty = State(wrappedValue: birthrateProperty)
     }
 
     var body: some View {
@@ -44,31 +70,12 @@ struct ParticleEditor: View {
                                 emitterSizeBeforeZoom = nil
                             }
                     )
-                NavigationLink(destination: PropertyList(editedProperty: $editedProperty)) {
-                    Text("\(editedProperty.rawValue)")
+                NavigationLink(destination: PropertyList(emitter: particleEmitter,
+                                                         properties: properties,
+                                                         editedProperty: $editedProperty)) {
+                    Text("\(editedProperty.displayName)")
                 }
-                switch editedProperty {
-                case .position:
-                    CGPointPropertyEditor(point: $particleEmitter.position)
-                case .size:
-                    CGSizePropertyEditor(size: $particleEmitter.size)
-                case .birthrate:
-                    CGFloatPropertyEditor(value: $particleEmitter.birthrate, range: 0 ... 100)
-                case .lifetime:
-                    CGFloatPropertyEditor(value: $particleEmitter.lifetime, range: 0 ... 20)
-                case .velocity:
-                    VStack {
-                        CGFloatPropertyEditor(value: $particleEmitter.velocity, range: -150 ... 150)
-                        CGFloatPropertyEditor(value: $particleEmitter.velocityRange,
-                                              range: -100 ... 100)
-                    }
-                case .color:
-                    CompactPickerView(color: $particleEmitter.color)
-                case .emissionRange:
-                    CGFloatAnglePropertyEditor(radians: $particleEmitter.emissionRange)
-                case .emissionLongitude:
-                    CGFloatAnglePropertyEditor(radians: $particleEmitter.emissionLongitude)
-                }
+                editedProperty.editorView
             }
             .textFieldStyle(.roundedBorder)
             .navigationBarHidden(true)
