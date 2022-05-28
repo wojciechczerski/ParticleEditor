@@ -4,6 +4,7 @@ import SwiftUI
 
 struct CGFloatAnglePropertyEditor: View {
     @Binding var radians: CGFloat
+    let range: ClosedRange<CGFloat>
 
     var body: some View {
         HStack {
@@ -14,7 +15,7 @@ struct CGFloatAnglePropertyEditor: View {
                     radians = degrees * .pi / 180
                 }
             )
-            RoundingFloatSlider(value: bindingProxy, in: 0 ... 360)
+            RoundingFloatSlider(value: bindingProxy, in: range)
             CGFloatTextField(value: bindingProxy)
                 .frame(width: 70)
         }

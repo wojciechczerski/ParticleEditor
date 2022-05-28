@@ -25,13 +25,14 @@ struct CGFloatEmitterProperty: EmitterProperty {
 struct CGFloatAngleEmitterProperty: EmitterProperty {
     let displayName: String
     let property: EmitterPropertyReference<CGFloat>
+    let range: ClosedRange<CGFloat>
 
     var valueText: String {
-        String(describing: property.value)
+        String(describing: property.value.degrees)
     }
 
     var editorView: AnyView {
-        return AnyView(CGFloatAnglePropertyEditor(radians: property.binding))
+        return AnyView(CGFloatAnglePropertyEditor(radians: property.binding, range: range))
     }
 }
 

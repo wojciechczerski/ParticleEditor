@@ -38,9 +38,11 @@ struct ParticleEditor: View {
                                    range: -100 ... 100),
             ColorEmitterProperty(displayName: "Color", property: emitter.property(\.color)),
             CGFloatAngleEmitterProperty(displayName: "Emission Longitude",
-                                        property: emitter.property(\.emissionLongitude)),
+                                        property: emitter.property(\.emissionLongitude),
+                                        range: 0 ... 360),
             CGFloatAngleEmitterProperty(displayName: "Emission Range",
-                                        property: emitter.property(\.emissionRange))
+                                        property: emitter.property(\.emissionRange),
+                                        range: 0 ... 180)
         ]
 
         _editedProperty = State(wrappedValue: birthrateProperty)
