@@ -24,8 +24,15 @@ struct ParticleEditor: View {
         let positionProperty = CGPointEmitterProperty(info: .position,
                                                       property: emitter.property(\.position))
 
-        properties = [
-            positionProperty,
+        properties = Self.createProperties(emitter: emitter, firstProperty: positionProperty)
+
+        _editedProperty = State(wrappedValue: positionProperty)
+    }
+
+    static func createProperties(emitter: ParticleEmitter,
+                                 firstProperty: EmitterProperty) -> [EmitterProperty] {
+        [
+            firstProperty,
             CGSizeEmitterProperty(info: .size, property: emitter.property(\.size)),
             CGFloatEmitterProperty(info: .birthrate,
                                    property: emitter.property(\.birthrate),
@@ -46,10 +53,17 @@ struct ParticleEditor: View {
                                         range: 0 ... 360),
             CGFloatAngleEmitterProperty(info: .emissionRange,
                                         property: emitter.property(\.emissionRange),
-                                        range: 0 ... 180)
+                                        range: 0 ... 180),
+            CGFloatEmitterProperty(info: .scale,
+                                   property: emitter.property(\.scale),
+                                   range: -5 ... 5, roundingPrecision: .tenths),
+            CGFloatEmitterProperty(info: .scaleRange,
+                                   property: emitter.property(\.scaleRange),
+                                   range: -5 ... 5, roundingPrecision: .tenths),
+            CGFloatEmitterProperty(info: .scaleSpeed,
+                                   property: emitter.property(\.scaleSpeed),
+                                   range: -5 ... 5, roundingPrecision: .tenths)
         ]
-
-        _editedProperty = State(wrappedValue: positionProperty)
     }
 
     var body: some View {

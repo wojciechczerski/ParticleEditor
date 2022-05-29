@@ -17,13 +17,16 @@ struct CGFloatEmitterProperty: EmitterProperty {
     let info: PropertyInfo
     let property: EmitterPropertyReference<CGFloat>
     let range: ClosedRange<CGFloat>
+    var roundingPrecision: RoundingPrecision = .ones
 
     var valueText: String {
         String(describing: property.value)
     }
 
     var editorView: AnyView {
-        return AnyView(CGFloatPropertyEditor(value: property.binding, range: range))
+        return AnyView(CGFloatPropertyEditor(value: property.binding,
+                                             range: range,
+                                             roundingPrecision: roundingPrecision))
     }
 }
 

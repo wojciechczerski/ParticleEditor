@@ -28,9 +28,9 @@ struct ParticleEmitterView: UIViewRepresentable {
         cell.color = emitter.color.cgColor
         cell.emissionLongitude = emitter.emissionLongitude
         cell.emissionRange = emitter.emissionRange
-//        cell.spinRange = .pi * 6
-        cell.scaleRange = 0.25
-        cell.scale = 1.0 - cell.scaleRange
+        cell.scaleRange = emitter.scaleRange
+        cell.scale = emitter.scale
+        cell.scaleSpeed = emitter.scaleSpeed
         cell.contents = UIImage(named: "Particle")?.cgImage
         return cell
     }

@@ -45,4 +45,19 @@ extension PropertyInfo {
         name: "Emission Range",
         description: "The angle, in radians, defining a cone around the emission angle."
     )
+
+    static let scale = PropertyInfo(
+        name: "Scale",
+        description: "Specifies the scale factor applied to the cell."
+    )
+
+    static let scaleRange = PropertyInfo(
+        name: "Scale Range",
+        description: "Specifies the range over which the scale value can vary."
+    )
+
+    static let scaleSpeed = PropertyInfo(
+        name: "Scale Speed",
+        description: "The speed at which the scale changes over the lifetime of the cell."
+    )
 }

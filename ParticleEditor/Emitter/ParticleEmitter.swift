@@ -12,4 +12,7 @@ class ParticleEmitter: ObservableObject {
     @Published var color: Color = .white
     @Published var emissionRange = CGFloat.zero
     @Published var emissionLongitude = CGFloat.zero
+    @Published var scale: CGFloat = 1
+    @Published var scaleRange: CGFloat = 0
+    @Published var scaleSpeed: CGFloat = 0
 }
