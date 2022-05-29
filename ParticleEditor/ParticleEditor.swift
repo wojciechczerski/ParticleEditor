@@ -21,26 +21,26 @@ struct ParticleEditor: View {
 
         _particleEmitter = StateObject(wrappedValue: emitter)
 
-        let birthrateProperty = CGFloatEmitterProperty(displayName: "Birthrate",
+        let birthrateProperty = CGFloatEmitterProperty(name: "Birthrate",
                                                        property: emitter.property(\.birthrate),
                                                        range: 0 ... 100)
 
         properties = [
             birthrateProperty,
-            CGPointEmitterProperty(displayName: "Position", property: emitter.property(\.position)),
-            CGSizeEmitterProperty(displayName: "Size", property: emitter.property(\.size)),
-            CGFloatEmitterProperty(displayName: "Lifetime", property: emitter.property(\.lifetime),
+            CGPointEmitterProperty(name: "Position", property: emitter.property(\.position)),
+            CGSizeEmitterProperty(name: "Size", property: emitter.property(\.size)),
+            CGFloatEmitterProperty(name: "Lifetime", property: emitter.property(\.lifetime),
                                    range: 0 ... 20),
-            CGFloatEmitterProperty(displayName: "Velocity", property: emitter.property(\.velocity),
+            CGFloatEmitterProperty(name: "Velocity", property: emitter.property(\.velocity),
                                    range: -150 ... 150),
-            CGFloatEmitterProperty(displayName: "Velocity Range",
+            CGFloatEmitterProperty(name: "Velocity Range",
                                    property: emitter.property(\.velocityRange),
                                    range: -100 ... 100),
-            ColorEmitterProperty(displayName: "Color", property: emitter.property(\.color)),
-            CGFloatAngleEmitterProperty(displayName: "Emission Longitude",
+            ColorEmitterProperty(name: "Color", property: emitter.property(\.color)),
+            CGFloatAngleEmitterProperty(name: "Emission Longitude",
                                         property: emitter.property(\.emissionLongitude),
                                         range: 0 ... 360),
-            CGFloatAngleEmitterProperty(displayName: "Emission Range",
+            CGFloatAngleEmitterProperty(name: "Emission Range",
                                         property: emitter.property(\.emissionRange),
                                         range: 0 ... 180)
         ]
@@ -75,7 +75,7 @@ struct ParticleEditor: View {
                 NavigationLink(destination: PropertyList(emitter: particleEmitter,
                                                          properties: properties,
                                                          editedProperty: $editedProperty)) {
-                    Text("\(editedProperty.displayName)")
+                    Text("\(editedProperty.name)")
                 }
                 editedProperty.editorView
             }

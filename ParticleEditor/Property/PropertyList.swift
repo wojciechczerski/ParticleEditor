@@ -9,14 +9,14 @@ struct PropertyList: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
 
     var body: some View {
-        List(properties, id: \.displayName) { property in
+        List(properties, id: \.name) { property in
             VStack(alignment: .leading) {
                 HStack {
-                    Button(property.displayName) {
+                    Button(property.name) {
                         editedProperty = property
                         presentationMode.wrappedValue.dismiss()
                     }
-                    if property.displayName == editedProperty.displayName {
+                    if property.name == editedProperty.name {
                         Spacer()
                         Image(systemName: "checkmark")
                     }
