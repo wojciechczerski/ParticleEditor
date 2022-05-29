@@ -21,40 +21,30 @@ struct ParticleEditor: View {
 
         _particleEmitter = StateObject(wrappedValue: emitter)
 
-        let positionProperty = CGPointEmitterProperty(name: "Position",
-                                                      info: "The position of the center of the particle emitter.",
+        let positionProperty = CGPointEmitterProperty(info: .position,
                                                       property: emitter.property(\.position))
 
         properties = [
             positionProperty,
-            CGSizeEmitterProperty(name: "Size",
-                                  info: "Determines the size of the particle emitter shape.",
-                                  property: emitter.property(\.size)),
-            CGFloatEmitterProperty(name: "Birthrate",
-                                   info: "The number of emitted objects created every second.",
+            CGSizeEmitterProperty(info: .size, property: emitter.property(\.size)),
+            CGFloatEmitterProperty(info: .birthrate,
                                    property: emitter.property(\.birthrate),
                                    range: 0 ... 100),
-            CGFloatEmitterProperty(name: "Lifetime",
-                                   info: "The lifetime of the cell, in seconds.",
+            CGFloatEmitterProperty(info: .lifetime,
                                    property: emitter.property(\.lifetime),
                                    range: 0 ... 20),
-            CGFloatEmitterProperty(name: "Velocity",
-                                   info: "The initial velocity of the cell.",
+            CGFloatEmitterProperty(info: .velocity,
                                    property: emitter.property(\.velocity),
                                    range: -150 ... 150),
-            CGFloatEmitterProperty(name: "Velocity Range",
-                                   info: "The amount by which the velocity of the cell can vary.",
+            CGFloatEmitterProperty(info: .velocityRange,
                                    property: emitter.property(\.velocityRange),
                                    range: -100 ... 100),
-            ColorEmitterProperty(name: "Color",
-                                 info: "The color of each emitted object.",
+            ColorEmitterProperty(info: .color,
                                  property: emitter.property(\.color)),
-            CGFloatAngleEmitterProperty(name: "Emission Longitude",
-                                        info: "The longitudinal orientation of the emission angle.",
+            CGFloatAngleEmitterProperty(info: .emissionLongitude,
                                         property: emitter.property(\.emissionLongitude),
                                         range: 0 ... 360),
-            CGFloatAngleEmitterProperty(name: "Emission Range",
-                                        info: "The angle, in radians, defining a cone around the emission angle.",
+            CGFloatAngleEmitterProperty(info: .emissionRange,
                                         property: emitter.property(\.emissionRange),
                                         range: 0 ... 180)
         ]
@@ -89,14 +79,14 @@ struct ParticleEditor: View {
                 NavigationLink(destination: PropertyList(emitter: particleEmitter,
                                                          properties: properties,
                                                          editedProperty: $editedProperty)) {
-                    Text(editedProperty.name)
+                    Text(editedProperty.info.name)
                 }
                 editedProperty.editorView
             }
             .textFieldStyle(.roundedBorder)
             .navigationBarHidden(true)
             .navigationBarTitleDisplayMode(.inline)
-            .navigationTitle(editedProperty.name)
+            .navigationTitle(editedProperty.info.name)
             .padding()
             .toolbar {
                 ToolbarItemGroup(placement: .keyboard) {

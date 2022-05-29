@@ -9,22 +9,22 @@ struct PropertyList: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
 
     var body: some View {
-        List(properties, id: \.name) { property in
+        List(properties, id: \.info.name) { property in
             HStack {
                 VStack(alignment: .leading) {
                     Button {
                         editedProperty = property
                         presentationMode.wrappedValue.dismiss()
                     } label: {
-                        if property.name == editedProperty.name {
-                            Text(property.name)
+                        if property.info.name == editedProperty.info.name {
+                            Text(property.info.name)
                                 .bold()
                         } else {
-                            Text(property.name)
+                            Text(property.info.name)
                                 .foregroundColor(Color.black)
                         }
                     }
-                    Text(property.info)
+                    Text(property.info.description)
                         .font(.footnote)
                 }
                 Spacer()

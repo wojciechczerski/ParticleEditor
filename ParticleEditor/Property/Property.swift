@@ -2,16 +2,19 @@
 
 import SwiftUI
 
+struct PropertyInfo {
+    let name: String
+    let description: String
+}
+
 protocol EmitterProperty {
-    var name: String { get }
-    var info: String { get }
+    var info: PropertyInfo { get }
     var valueText: String { get }
     var editorView: AnyView { get }
 }
 
 struct CGFloatEmitterProperty: EmitterProperty {
-    let name: String
-    let info: String
+    let info: PropertyInfo
     let property: EmitterPropertyReference<CGFloat>
     let range: ClosedRange<CGFloat>
 
@@ -25,8 +28,7 @@ struct CGFloatEmitterProperty: EmitterProperty {
 }
 
 struct CGFloatAngleEmitterProperty: EmitterProperty {
-    let name: String
-    let info: String
+    let info: PropertyInfo
     let property: EmitterPropertyReference<CGFloat>
     let range: ClosedRange<CGFloat>
 
@@ -40,8 +42,7 @@ struct CGFloatAngleEmitterProperty: EmitterProperty {
 }
 
 struct ColorEmitterProperty: EmitterProperty {
-    let name: String
-    let info: String
+    let info: PropertyInfo
     let property: EmitterPropertyReference<Color>
 
     var valueText: String {
@@ -54,8 +55,7 @@ struct ColorEmitterProperty: EmitterProperty {
 }
 
 struct CGSizeEmitterProperty: EmitterProperty {
-    let name: String
-    let info: String
+    let info: PropertyInfo
     let property: EmitterPropertyReference<CGSize>
 
     var valueText: String {
@@ -68,8 +68,7 @@ struct CGSizeEmitterProperty: EmitterProperty {
 }
 
 struct CGPointEmitterProperty: EmitterProperty {
-    let name: String
-    let info: String
+    let info: PropertyInfo
     let property: EmitterPropertyReference<CGPoint>
 
     var valueText: String {
