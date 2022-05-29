@@ -18,6 +18,7 @@ struct PropertyList: View {
                     } label: {
                         if property.info.name == editedProperty.info.name {
                             Text(property.info.name)
+                                .foregroundColor(Color(uiColor: .systemBlue))
                                 .bold()
                         } else {
                             Text(property.info.name)
@@ -31,5 +32,6 @@ struct PropertyList: View {
                 Text(property.valueText)
             }
         }
+        .listStyle(.plain)
     }
 }
