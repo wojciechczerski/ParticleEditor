@@ -10,19 +10,25 @@ struct PropertyList: View {
 
     var body: some View {
         List(properties, id: \.name) { property in
-            VStack(alignment: .leading) {
-                HStack {
-                    Button(property.name) {
+            HStack {
+                VStack(alignment: .leading) {
+                    Button {
                         editedProperty = property
                         presentationMode.wrappedValue.dismiss()
+                    } label: {
+                        if property.name == editedProperty.name {
+                            Text(property.name)
+                                .bold()
+                        } else {
+                            Text(property.name)
+                                .foregroundColor(Color.black)
+                        }
                     }
-                    if property.name == editedProperty.name {
-                        Spacer()
-                        Image(systemName: "checkmark")
-                    }
+                    Text(property.info)
+                        .font(.footnote)
                 }
+                Spacer()
                 Text(property.valueText)
-                    .font(.footnote)
             }
         }
     }

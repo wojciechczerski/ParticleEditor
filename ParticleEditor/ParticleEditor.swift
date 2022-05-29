@@ -21,31 +21,45 @@ struct ParticleEditor: View {
 
         _particleEmitter = StateObject(wrappedValue: emitter)
 
-        let birthrateProperty = CGFloatEmitterProperty(name: "Birthrate",
-                                                       property: emitter.property(\.birthrate),
-                                                       range: 0 ... 100)
+        let positionProperty = CGPointEmitterProperty(name: "Position",
+                                                      info: "The position of the center of the particle emitter.",
+                                                      property: emitter.property(\.position))
 
         properties = [
-            birthrateProperty,
-            CGPointEmitterProperty(name: "Position", property: emitter.property(\.position)),
-            CGSizeEmitterProperty(name: "Size", property: emitter.property(\.size)),
-            CGFloatEmitterProperty(name: "Lifetime", property: emitter.property(\.lifetime),
+            positionProperty,
+            CGSizeEmitterProperty(name: "Size",
+                                  info: "Determines the size of the particle emitter shape.",
+                                  property: emitter.property(\.size)),
+            CGFloatEmitterProperty(name: "Birthrate",
+                                   info: "The number of emitted objects created every second.",
+                                   property: emitter.property(\.birthrate),
+                                   range: 0 ... 100),
+            CGFloatEmitterProperty(name: "Lifetime",
+                                   info: "The lifetime of the cell, in seconds.",
+                                   property: emitter.property(\.lifetime),
                                    range: 0 ... 20),
-            CGFloatEmitterProperty(name: "Velocity", property: emitter.property(\.velocity),
+            CGFloatEmitterProperty(name: "Velocity",
+                                   info: "The initial velocity of the cell.",
+                                   property: emitter.property(\.velocity),
                                    range: -150 ... 150),
             CGFloatEmitterProperty(name: "Velocity Range",
+                                   info: "The amount by which the velocity of the cell can vary.",
                                    property: emitter.property(\.velocityRange),
                                    range: -100 ... 100),
-            ColorEmitterProperty(name: "Color", property: emitter.property(\.color)),
+            ColorEmitterProperty(name: "Color",
+                                 info: "The color of each emitted object.",
+                                 property: emitter.property(\.color)),
             CGFloatAngleEmitterProperty(name: "Emission Longitude",
+                                        info: "The longitudinal orientation of the emission angle.",
                                         property: emitter.property(\.emissionLongitude),
                                         range: 0 ... 360),
             CGFloatAngleEmitterProperty(name: "Emission Range",
+                                        info: "The angle, in radians, defining a cone around the emission angle.",
                                         property: emitter.property(\.emissionRange),
                                         range: 0 ... 180)
         ]
 
-        _editedProperty = State(wrappedValue: birthrateProperty)
+        _editedProperty = State(wrappedValue: positionProperty)
     }
 
     var body: some View {
@@ -75,13 +89,14 @@ struct ParticleEditor: View {
                 NavigationLink(destination: PropertyList(emitter: particleEmitter,
                                                          properties: properties,
                                                          editedProperty: $editedProperty)) {
-                    Text("\(editedProperty.name)")
+                    Text(editedProperty.name)
                 }
                 editedProperty.editorView
             }
             .textFieldStyle(.roundedBorder)
             .navigationBarHidden(true)
             .navigationBarTitleDisplayMode(.inline)
+            .navigationTitle(editedProperty.name)
             .padding()
             .toolbar {
                 ToolbarItemGroup(placement: .keyboard) {
