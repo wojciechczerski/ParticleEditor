@@ -15,4 +15,6 @@ class ParticleEmitter: ObservableObject {
     @Published var scale: CGFloat = 1
     @Published var scaleRange: CGFloat = 0
     @Published var scaleSpeed: CGFloat = 0
+    @Published var alphaRange: CGFloat = 0
+    @Published var alphaSpeed: CGFloat = 0
 }

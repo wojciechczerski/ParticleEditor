@@ -60,4 +60,16 @@ extension PropertyInfo {
         name: "Scale Speed",
         description: "The speed at which the scale changes over the lifetime of the cell."
     )
+
+    static let alphaRange = PropertyInfo(
+        name: "Alpha Range",
+        description: "The amount by which the alpha component of the cell can vary."
+    )
+
+    static let alphaSpeed = PropertyInfo(
+        name: "Alpha Speed",
+        description: """
+        The speed, in seconds, at which the alpha component changes over the lifetime of the cell.
+        """
+    )
 }

@@ -62,6 +62,12 @@ struct ParticleEditor: View {
                                    range: -5 ... 5, roundingPrecision: .tenths),
             CGFloatEmitterProperty(info: .scaleSpeed,
                                    property: emitter.property(\.scaleSpeed),
+                                   range: -5 ... 5, roundingPrecision: .tenths),
+            CGFloatEmitterProperty(info: .alphaRange,
+                                   property: emitter.property(\.alphaRange),
+                                   range: -1 ... 1, roundingPrecision: .tenths),
+            CGFloatEmitterProperty(info: .alphaSpeed,
+                                   property: emitter.property(\.alphaSpeed),
                                    range: -5 ... 5, roundingPrecision: .tenths)
         ]
     }

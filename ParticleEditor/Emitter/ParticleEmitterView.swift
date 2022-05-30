@@ -21,6 +21,8 @@ struct ParticleEmitterView: UIViewRepresentable {
 
     private func emitterCell() -> CAEmitterCell {
         let cell = CAEmitterCell()
+        cell.alphaRange = Float(emitter.alphaRange)
+        cell.alphaSpeed = Float(emitter.alphaSpeed)
         cell.birthRate = Float(emitter.birthrate)
         cell.lifetime = Float(emitter.lifetime)
         cell.velocity = emitter.velocity
